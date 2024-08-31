@@ -1,0 +1,85 @@
+/* THIS IS WIP. MISSING SOME KEY METHODS*/
+
+import javax.swing.*;
+import java.util.*;
+import java.awt.*;
+
+public class EmployeeApplication {
+   
+   public static void main(String args[]){
+      // Variables
+      EmployeeListHandler handler = new EmployeeListHandler();
+      DS_EmployeeList_Array List = new DS_EmployeeList_Array();
+      Employee current;
+      Employee node;
+      String[] array = handler.getArray();
+      int lines = handler.getLines();
+      Employee[] eList = handler.getEmployees();
+      int running = 0;
+      
+      JOptionPane.showMessageDialog(null, "Data Loaded", "Loading Data...", JOptionPane.INFORMATION_MESSAGE); // Just Flair
+      
+      for (int i = 0; i < lines; i++){
+         node = new Employee(eList[i]);
+         List.addItem(node);
+      }
+      
+      running = 1;
+      
+      while (running == 1){
+      int choice = Integer.parseInt(JOptionPane.showInputDialog("Choose Operation:\n" +
+                                   "1) Show List\n2) Add Employee\n3) Search Employee\n4) Remove Employee\n5) Save and Exit"));
+      
+      switch(choice){
+         case 1: 
+            JTextArea textArea = new JTextArea(List.toString() + "\nNumber of Total Employees: " + List.getSize());
+            JScrollPane scrollPane = new JScrollPane(textArea);
+            textArea.setLineWrap(true);  
+            textArea.setWrapStyleWord(true); 
+            scrollPane.setPreferredSize(new Dimension(500, 500));
+            JOptionPane.showMessageDialog(null, scrollPane, "List Of Employees",  
+                                                JOptionPane.INFORMATION_MESSAGE);
+         break;
+         case 2: 
+            choice = Integer.parseInt(JOptionPane.showInputDialog("Choose Operation:\n" +
+                                   "1) Add To Specific Index\n2) Add Normally"));
+            if (choice == 1){
+               node = new Employee(JOptionPane.showInputDialog("Enter name"), JOptionPane.showInputDialog("Enter Position:"),
+               (byte)Integer.parseInt(JOptionPane.showInputDialog("Enter age:")), Integer.parseInt(JOptionPane.showInputDialog("Enter ID: ")));
+               int idx = Integer.parseInt(JOptionPane.showInputDialog("Enter which index to set: "));
+      
+               List.addItem(idx, node);
+               eList = List.getList();
+            }
+            else if (choice == 2){
+               node = new Employee(JOptionPane.showInputDialog("Enter name"), JOptionPane.showInputDialog("Enter Position:"),
+               (byte)Integer.parseInt(JOptionPane.showInputDialog("Enter age:")), Integer.parseInt(JOptionPane.showInputDialog("Enter ID: ")));
+      
+               List.addItem(node);
+               eList = List.getList();
+            }
+         break;
+         case 3: 
+            choice = Integer.parseInt(JOptionPane.showInputDialog("Choose Operation:\n" +
+                                   "1) Search By Index\n2) Search By Name\n3) Search By ID"));
+            if (choice == 1){
+               JOptionPane.showInputDialog("");
+            }
+            else if (choice == 2){}
+            else if (choice == 3){}
+         break;
+         case 4: break;
+         case 5: running = 0; break;
+         default: JOptionPane.showMessageDialog(null, "Error! Are You Stupid??"); break;
+      }
+      
+      
+      
+      handler.saveEmployees(eList); // Only reads list here
+      
+      }
+      
+      
+   }
+   
+}
