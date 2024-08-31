@@ -55,7 +55,7 @@ public class DS_EmployeeList_Array {
             return i;
          }
       }
-      return 0;
+      return -100;
    }
    
    public int searchByID(int id){
