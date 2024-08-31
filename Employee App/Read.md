@@ -1,0 +1,4 @@
+EmployeeList Format:
+(Name, Position, Age, ID)
+Example:
+Sample Name, Sample Position, 1(Sample Age), 69420(Sample ID)
