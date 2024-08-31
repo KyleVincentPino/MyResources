@@ -7,8 +7,6 @@ public class EmployeeListHandler{
    Employee employee;
    String[] array;
    Scanner s;
-   InputStream inObj;
-   OutputStream outObj;
    
    public EmployeeListHandler(){
       list = new File("EmployeeList.txt");
