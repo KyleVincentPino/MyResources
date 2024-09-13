@@ -1,0 +1,192 @@
+import javax.swing.*;
+import java.util.*;
+import java.awt.*;
+
+public class EmployeeApplication {
+   
+   public static void main(String args[]){
+      // Variables
+      EmployeeListHandler handler = new EmployeeListHandler();
+      DS_EmployeeList_Array List = new DS_EmployeeList_Array();
+      DS_ListSorter Sorter = new DS_ListSorter();
+      Employee node;
+      String[] array = handler.getArray();
+      int lines = handler.getLines();
+      Employee[] eList = handler.getEmployees();
+      int running = 0;
+      
+      JOptionPane.showMessageDialog(null, "Data Loaded", "Loading Data...", JOptionPane.INFORMATION_MESSAGE); // Just Flair
+      
+      for (int i = 0; i < lines; i++){
+         node = new Employee(eList[i]);
+         List.addItem(node);
+      }
+      
+      running = 1;
+      
+      while (running == 1){
+      int choice = 0;
+      String[] options = new String[] {"Enter", "Exit"};
+      String input = JOptionPane.showInputDialog(null, "Choose Operation:\n" +
+                                   "1) Show List\n2) Add Employee\n3) Search Employee\n4) Remove Employee\n5) Sort List\n6) Save and Exit", "Employee Management System",
+                                      JOptionPane.DEFAULT_OPTION);
+      if(input == null || (input != null && ("".equals(input)))) {}
+      else {choice = Integer.parseInt(input);}
+      
+      switch(choice){
+         case 1: 
+            JTextArea textArea = new JTextArea(List.toString() + "\nNumber of Total Employees: " + List.getSize());
+            JScrollPane scrollPane = new JScrollPane(textArea);
+            textArea.setLineWrap(true);  
+            textArea.setWrapStyleWord(true); 
+            scrollPane.setPreferredSize(new Dimension(500, 500));
+            JOptionPane.showMessageDialog(null, scrollPane, "List Of Employees",  
+                                                JOptionPane.INFORMATION_MESSAGE);
+         break;
+         case 2: 
+            input = JOptionPane.showInputDialog("Choose Operation:\n" +
+                                   "1) Add To Specific Index\n2) Add Normally");
+            if(input == null || (input != null && ("".equals(input)))) break;
+            else {choice = Integer.parseInt(input);}
+            if (choice == 1){
+               node = new Employee(JOptionPane.showInputDialog("Enter name"), JOptionPane.showInputDialog("Enter Position:"),
+               (byte)Integer.parseInt(JOptionPane.showInputDialog("Enter age:")), Integer.parseInt(JOptionPane.showInputDialog("Enter ID: ")));
+               int idx = Integer.parseInt(JOptionPane.showInputDialog("Enter which index to set: "));
+               boolean check = List.checkDuplicateID(node.getID(), List.getList());
+               if (check == true) List.addItem(idx, node);
+               else JOptionPane.showMessageDialog(null, "The ID you have selected already exists, please try again with a different ID.");
+               eList = List.getList();
+            }
+            else if (choice == 2){
+               node = new Employee(JOptionPane.showInputDialog("Enter name"), JOptionPane.showInputDialog("Enter Position:"),
+               (byte)Integer.parseInt(JOptionPane.showInputDialog("Enter age:")), Integer.parseInt(JOptionPane.showInputDialog("Enter ID: ")));
+               boolean check = List.checkDuplicateID(node.getID(), List.getList());
+               if (check == true) List.addItem(node);
+               else JOptionPane.showMessageDialog(null, "The ID you have selected already exists, please try again with a different ID.");
+               eList = List.getList();
+            }
+         break;
+         case 3: 
+            boolean r = true;
+            Employee current = null;
+            String result = "";
+            int indexResult = 0;
+            options = new String[] {"Previous", "Next", "Search By Index", "Search By Name", "Search By ID", "Back"};
+            while(r == true){
+               if (current == null) result = "No Current Selected Employee";
+               else result = "Name: " + current.getName() + "\n" +
+                             "Position: " + current.getPosition() + "\n" +
+                             "Age: " + current.getAge() + "\n" +
+                             "ID: " + current.getID() + "\n" + 
+                             "List Index: " + (indexResult+1);
+                           
+               choice = JOptionPane.showOptionDialog(null, "Current Employee: \n" + result, "List Searcher",
+                                      JOptionPane.DEFAULT_OPTION, 3, null, options, options[0]);
+               if (choice == 0) {
+                  if (indexResult <= 0) current = List.getList()[indexResult];
+                  else {indexResult -= 1; current = List.getList()[indexResult];}
+               }
+               else if (choice == 1) {
+                  if (List.getList()[indexResult+1] != null) {indexResult += 1; current = List.getList()[indexResult];}
+                  else current = List.getList()[indexResult];
+               }                       
+               else if (choice == 2){
+                  choice = Integer.parseInt(JOptionPane.showInputDialog("Enter Index: "));
+                  indexResult = choice-1;
+                  current = List.getList()[List.searchByIndex(choice)];
+               }
+               else if (choice == 3){
+                  String name = JOptionPane.showInputDialog("Enter Name: ");
+                  if (List.searchByName(name) == -100) JOptionPane.showMessageDialog(null, "There is no " + name + " in the database.");
+                  else {
+                  indexResult = choice-1;
+                  current = List.getList()[List.searchByName(name)];
+                  }
+               }
+               else if (choice == 4){
+                  choice = Integer.parseInt(JOptionPane.showInputDialog("Enter ID: "));
+                  indexResult = choice-1;
+                  current = List.getList()[List.searchByID(choice)];
+               }
+               else if (choice == 5) r = false;
+            }
+         break;
+         case 4: 
+            options = new String[] {"Remove Last Index", "Remove By Index", "Back"};
+            choice = JOptionPane.showOptionDialog(null, "Which Operation Will You Do?", "Employee Removal",
+                                      JOptionPane.DEFAULT_OPTION, 3, null, options, options[0]);
+            if (choice == 0){
+               List.remove();
+               JOptionPane.showMessageDialog(null, "Successfully removed the last indexed Employee!", "Success!", JOptionPane.PLAIN_MESSAGE);
+               eList = List.getList();
+            }
+            else if (choice == 1){
+               input = JOptionPane.showInputDialog(null, "Which Index To Remove?", "Remove By Index", JOptionPane.DEFAULT_OPTION);
+               choice = Integer.parseInt(input);
+               List.removeByIndex(choice);
+               JOptionPane.showMessageDialog(null, "Successfully removed the index-selected Employee!", "Success!", JOptionPane.PLAIN_MESSAGE);
+               eList = List.getList();
+            }
+            else if (choice == 2) {}
+         break;
+         case 5: 
+            Employee[] sortedList = List.getList();
+            options = new String[] {"Selection Sort", "Double Selection Sort", "Bubble Sort", "Insertion Sort", "Quick Sort", "Merge Sort"};
+            choice = JOptionPane.showOptionDialog(null, "Which Operation Will You Do?", "Sorting List Methods",
+                                      JOptionPane.DEFAULT_OPTION, 3, null, options, options[0]);
+            if (choice == 0) {
+               sortedList = Sorter.selectionSort(eList);
+               List.setList(sortedList);
+               eList = List.getList();
+               if (eList[0].getID() != 1) JOptionPane.showMessageDialog(null, "Sort Failure!", "Failed!", JOptionPane.PLAIN_MESSAGE); // Error checker
+               else JOptionPane.showMessageDialog(null, "Successfully sorted the List!", "Success!", JOptionPane.PLAIN_MESSAGE);
+               }
+            if (choice == 1) {
+               sortedList = Sorter.doubleSelectionSort(eList);
+               List.setList(sortedList);
+               eList = List.getList();
+               if (eList[0].getID() != 1) JOptionPane.showMessageDialog(null, "Sort Failure!", "Failed!", JOptionPane.PLAIN_MESSAGE); // Error checker
+               else JOptionPane.showMessageDialog(null, "Successfully sorted the List!", "Success!", JOptionPane.PLAIN_MESSAGE);
+               }
+            if (choice == 2) {
+               sortedList = Sorter.bubbleSort(eList);
+               List.setList(sortedList);
+               eList = List.getList();
+               if (eList[0].getID() != 1) JOptionPane.showMessageDialog(null, "Sort Failure!", "Failed!", JOptionPane.PLAIN_MESSAGE); // Error checker
+               else JOptionPane.showMessageDialog(null, "Successfully sorted the List!", "Success!", JOptionPane.PLAIN_MESSAGE);
+               }
+            if (choice == 3) {
+               sortedList = Sorter.insertionSort(eList);
+               List.setList(sortedList);
+               eList = List.getList();
+               if (eList[0].getID() != 1) JOptionPane.showMessageDialog(null, "Sort Failure!", "Failed!", JOptionPane.PLAIN_MESSAGE); // Error checker
+               else JOptionPane.showMessageDialog(null, "Successfully sorted the List!", "Success!", JOptionPane.PLAIN_MESSAGE);
+               }
+            if (choice == 4) {
+               sortedList = Sorter.quickSort(eList);
+               List.setList(sortedList);
+               eList = List.getList();
+               if (eList[0].getID() != 1) JOptionPane.showMessageDialog(null, "Sort Failure!", "Failed!", JOptionPane.PLAIN_MESSAGE); // Error checker
+               else JOptionPane.showMessageDialog(null, "Successfully sorted the List!", "Success!", JOptionPane.PLAIN_MESSAGE);
+               }
+            if (choice == 5) {
+               sortedList = Sorter.mergeSort(eList);
+               List.setList(sortedList);
+               eList = List.getList();
+               if (eList[0].getID() != 1) JOptionPane.showMessageDialog(null, "Sort Failure!", "Failed!", JOptionPane.PLAIN_MESSAGE); // Error checker
+               else JOptionPane.showMessageDialog(null, "Successfully sorted the List!", "Success!", JOptionPane.PLAIN_MESSAGE);
+               }
+         break;
+         case 6: running = 0; break;
+         default: JOptionPane.showMessageDialog(null, "Error! Are You Stupid??"); break;
+      }
+      
+      
+      handler.saveEmployees(eList); // Only reads list here
+      
+      }
+      
+      
+   }
+   
+}
