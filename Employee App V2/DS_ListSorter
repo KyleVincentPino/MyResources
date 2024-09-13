@@ -1,0 +1,187 @@
+
+public class DS_ListSorter extends DS_EmployeeList_Array{
+
+   public DS_ListSorter(){
+      super();
+   }
+   
+   // Sort Based On IDs
+   public Employee[] selectionSort(Employee[] orig){ // Least Or Biggest is identified, then will be swapped with current pass position
+      int size = orig.length;
+      for (int i = 0; i < size; i++ ) {
+         int min = i;
+         for (int j = i; j < size; j++) {
+            if (orig[j].getID() < orig[min].getID()) {
+               min = j;
+            }
+         }
+         Employee temp = orig[min];
+         orig [min] = orig[i];
+         orig[i] = temp;
+      }
+      return orig;
+   } 
+   
+   public Employee[] doubleSelectionSort(Employee[] orig){ // Just like selection sort, just deals with both least and biggest at the same time
+      int size = orig.length;
+      for (int i = 0, j = size - 1; i < j; i++, j--) {
+         int min = i, max = i;
+         for (int k = i; k <= j; k++) {
+            if (orig[k].getID() < orig[min].getID()) {
+               min = k;
+            }
+            if (orig[k].getID() > orig[max].getID()) {
+               max = k;
+            }
+         }
+         Employee temp = orig[min];
+         orig[min] = orig[i];
+         orig[i] = temp;
+                        
+         if (max == i) {
+            max = min;
+         }
+                        
+         temp = orig[max];
+         orig[max] = orig[j];
+         orig[j] = temp;
+      }
+      return orig;
+   }
+   
+   public Employee[] bubbleSort(Employee[] orig){ // Compares adjacent elements and make necessary swaps until the largest or smallest is at the last position
+      int size = orig.length;
+      for (int i = 0; i < size; i++) {
+         for (int j = 0; j < size - 1; j++) {
+            if (orig[j] != null && orig[j + 1] != null &&
+                        orig[j].getID() > orig[j + 1].getID()) {
+               Employee temp = orig[j];
+               orig[j] = orig[j + 1];
+               orig[j + 1] = temp;
+            }
+         }
+      }
+      return orig;
+   }
+   
+   public Employee[] insertionSort(Employee[] orig){ // start with the values of 0 and 1, if item is less than 0, then swap to left, if more than 1, move to right.
+      int size = orig.length;
+      for (int i = 1; i < size; i++) {
+         Employee temp = orig[i];
+         int j = i - 1;
+         while (j >= 0 && orig[j].getID() > temp.getID()) {
+            orig[j + 1] = orig[j];
+            j = j - 1;
+         }
+         orig[j + 1] = temp;
+      }
+      return orig;
+   }
+   
+   /* if array contains one element, return. 
+   else:
+   pick one element as pivot,
+   partition elements into two sub-arrays 
+   [elements less than or equal to pivot]
+   [elements greater than pivot].
+   quicksort two sub-arrays
+   return results
+   */
+   public Employee[] quickSort(Employee[] orig) {
+      int size = orig.length;
+      quickSortHelper(0, size - 1, orig);
+      return orig;
+   }
+
+   private void quickSortHelper(int low, int high, Employee[] orig) {
+      if (low < high) {
+         int pivotIndex = partition(low, high, orig);
+         quickSortHelper(low, pivotIndex - 1, orig);  // Sort the left part
+         quickSortHelper(pivotIndex + 1, high, orig); // Sort the right part
+      }
+   }
+
+   private int partition(int low, int high, Employee[] orig) {
+      Employee pivot = orig[high]; // Choose the last element as the pivot
+      int i = low - 1; // Index of the smaller element
+   
+      for (int j = low; j < high; j++) {
+         if (orig[j].getID() <= pivot.getID()) {
+            i++;
+            // Swap orig[i] and orig[j]
+            Employee temp = orig[i];
+            orig[i] = orig[j];
+            orig[j] = temp;
+         }
+      }
+   
+    // Swap orig[i + 1] and orig[high] (the pivot)
+      Employee temp = orig[i + 1];
+      orig[i + 1] = orig[high];
+      orig[high] = temp;
+   
+      return i + 1;
+   }
+   
+   public Employee[] mergeSort(Employee[] orig) {
+      int size = orig.length;
+      mergeSortHelper(0, size - 1, orig);
+      return orig;
+   }
+
+   private void mergeSortHelper(int left, int right, Employee[] orig) {
+      if (left < right) {
+         int mid = (left + right) / 2;
+        
+        // Recursively sort first and second halves
+         mergeSortHelper(left, mid, orig);
+         mergeSortHelper(mid + 1, right, orig);
+      
+        // Merge the sorted halves
+         merge(left, mid, right, orig);
+      }
+   }
+
+   private void merge(int left, int mid, int right, Employee[] orig) {
+      int n1 = mid - left + 1;
+      int n2 = right - mid;
+   
+    // Create temp arrays
+      Employee[] leftArray = new Employee[n1];
+      Employee[] rightArray = new Employee[n2];
+   
+    // Copy data to temp arrays
+      for (int i = 0; i < n1; i++)
+         leftArray[i] = orig[left + i];
+      for (int j = 0; j < n2; j++)
+         rightArray[j] = orig[mid + 1 + j];
+   
+    // Merge the temp arrays back into orig[left...right]
+      int i = 0, j = 0, k = left;
+      while (i < n1 && j < n2) {
+         if (leftArray[i].getID() <= rightArray[j].getID()) {
+            orig[k] = leftArray[i];
+            i++;
+         } else {
+            orig[k] = rightArray[j];
+            j++;
+         }
+         k++;
+      }
+   
+    // Copy remaining elements of leftArray[], if any
+      while (i < n1) {
+         orig[k] = leftArray[i];
+         i++;
+         k++;
+      }
+   
+    // Copy remaining elements of rightArray[], if any
+      while (j < n2) {
+         orig[k] = rightArray[j];
+         j++;
+         k++;
+      }
+   }
+   
+}
