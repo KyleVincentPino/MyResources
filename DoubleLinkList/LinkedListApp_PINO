@@ -1,0 +1,75 @@
+
+public class LinkedListApp_PINO {
+   
+   public static void main(String args[])
+   {
+      DoublyLinkedList_PINO List = new DoublyLinkedList_PINO();
+      
+      List.insert(new Employee("Alex", "Manager",(byte) 21, 202121,null,null));
+      List.insert(new Employee("Alexie", "Employee",(byte) 21, 202122,null,null));
+      List.insert(new Employee("Abegail", "Employee",(byte) 21, 202123,null,null));
+      List.insert(new Employee("Abby", "Employee",(byte) 21, 202124,null,null));
+      // Added 10 more to check
+      List.insert(new Employee("John", "HR Manager", (byte) 30, 202125, null, null));
+      List.insert(new Employee("Doe", "Software Engineer", (byte) 25, 202126, null, null));
+      List.insert(new Employee("Michael", "Team Lead", (byte) 32, 202127, null, null));
+      List.insert(new Employee("Jessica", "Marketing Specialist", (byte) 27, 202128, null, null));
+      List.insert(new Employee("Sarah", "QA Tester", (byte) 24, 202129, null, null));
+      List.insert(new Employee("Chris", "DevOps Engineer", (byte) 28, 202130, null, null));
+      List.insert(new Employee("Emily", "Sales Executive", (byte) 29, 202131, null, null));
+      List.insert(new Employee("Jake", "Customer Support", (byte) 23, 202132, null, null));
+      List.insert(new Employee("David", "Project Manager", (byte) 35, 202133, null, null));
+      List.insert(new Employee("Sophie", "UX Designer", (byte) 26, 202134, null, null));
+      List.insert(new Employee("Henry", "Data Analyst", (byte) 31, 202135, null, null));
+
+      System.out.println("List of Employees");
+      System.out.println(List.toString());
+      
+      // Everything below is now for testing
+      System.out.println("\n\nTesting Everyting.\n\n");
+      System.out.println("Inserting At Tail...\n"); // Testing InsertAtTail
+      List.insert(new Employee("Test", "Subject",(byte) 0, 202136,null,null));
+      System.out.println("Test Complete: \n\n" + List.findbyIndex(List.numberOfItems-1));
+      
+      System.out.println("\nInserting At Head...\n"); // Testing InsertAtHead
+      List.insertAtHead(new Employee("Test2", "Subject2",(byte) 0, 202120,null,null));
+      System.out.println("Test Complete: \n\n" + List.getFirstNode());
+      
+      System.out.println("\nInserting At Specific Index...\n"); // Testing InsertAtIndex
+      List.insertAtIndex(new Employee("Test3", "Subject3",(byte) 0, 202119,null,null), 3);
+      System.out.println("Test Complete: \n\n" + List.findbyIndex(3));
+      
+      System.out.println("\nDeleting The First Node...\n"); // Testing DeleteFirst
+      List.deleteFirst();
+      System.out.println("Test Complete: \n\n" + List.getFirstNode());
+      
+      System.out.println("\nDeleting The Last Node...\n"); // Testing DeleteLast
+      List.deleteLast();
+      System.out.println("Test Complete: \n\n" + List.findbyIndex(List.numberOfItems-1)); // The tail is always the last number of items, so we minus 1 to get last node
+      
+      System.out.println("\nDeleting The Specified Employee...\n"); // Testing DeleteSpecific
+      List.deleteSpecific(new Employee("Test2", "Subject2",(byte) 0, 202119,null,null));
+      System.out.println("Test Complete: \n\n" + List.findbyIndex(3));
+      
+      System.out.println("\nFinding Index Of Employee...\n"); // Testing FindByValue
+      int val = List.findByValue(new Employee("Michael", "Team Lead", (byte) 32, 202127, null, null)); // 7th Index
+      System.out.println("Test Complete: \n\n Michael is in the " + val + "th Index.");
+      
+      System.out.println("\nFinding Employee by their Index...\n"); // Testing FindByIndex
+      Employee indexTest = List.findbyIndex(6); // Doe
+      System.out.println("Test Complete: \n\n" + indexTest);
+      
+      // Both are aimed at Alex, the first index
+      System.out.println("\nSearching For The Name And ID of the Employee in the Specified Index...\n"); // Testing SearchEmployeeName and SearchID
+      System.out.println("Test Complete: \n\nName: " + List.searchEmployeeName(0) + " ID: " + List.searchEmployeeID(0));
+      
+      // Next And Previous Of Chris: Sarah = Prev and Emily = Next
+      System.out.println("\nTesting Next and Previous of Chris...\n"); // Testing Next and Prev
+      System.out.println("Test Complete: \n\n" 
+      + List.Previous(List.findbyIndex(10)) + "\n\n"
+      + List.Next(List.findbyIndex(10))
+      + "\n\nTesting Completed.");
+      
+   }
+   
+}
