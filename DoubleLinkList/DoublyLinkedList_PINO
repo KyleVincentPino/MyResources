@@ -1,0 +1,174 @@
+
+public class DoublyLinkedList_PINO {
+    
+   Employee Head;
+   Employee Tail;
+   int numberOfItems;
+    
+   DoublyLinkedList_PINO(){
+      MakeEmpty();
+   }
+    
+   public void MakeEmpty(){
+      Head = new Employee();
+      Tail = new Employee();
+      Head.setNext(Tail);
+      Tail.setPrevious(Head);
+      numberOfItems=0;
+   }
+   
+   public String toString(){
+      String str="";
+      if (numberOfItems>0){
+         Employee nav = Head.getNext();
+       
+         while (nav != Tail){
+            str += (nav.toString()+"\n\n");
+            nav = nav.getNext();
+         }
+      }
+      return str;
+   }
+     
+   public Employee getFirstNode(){ 
+      return Head.getNext();}
+      
+   public void insertFirstNode(Employee E){ // handles insert at head
+      E.setNext(Head.getNext());
+      E.setPrevious(Head);
+      Head.setNext(E);
+      Head.getNext().setPrevious(E);
+      numberOfItems++;        
+   }
+
+   public void insert (Employee E, int location){ // handles last and specific insert
+    
+      Employee nav = findbyIndex(location);
+      if (nav != null){
+         E.setNext(nav);
+         E.setPrevious(nav.getPrevious());
+         nav.getPrevious().setNext(E);
+         nav.setPrevious(E);
+         numberOfItems++;
+      }
+      if (location==numberOfItems){
+         E.setNext(Tail);
+         E.setPrevious(Tail.getPrevious());
+         Tail.getPrevious().setNext(E);
+         Tail.setPrevious(E);
+         numberOfItems++;
+      }
+   }
+   
+   public void insert(Employee E){ // Insert at tail
+      insert(E, numberOfItems);
+           
+   }
+    
+   public void insertAtHead(Employee E){ // Insert at head
+      insertFirstNode(E);
+   }
+    
+   public void insertAtIndex (Employee E, int location){ // Insert at index
+      insert(E, location);
+   }
+    
+   public void deleteFirst(){ // Delete First
+      if (numberOfItems > 0) {
+         Employee nav = Head.getNext();
+         Head.setNext(nav.getNext());
+         nav.getNext().setPrevious(Head);
+         numberOfItems--;
+      }
+   }
+    
+   public void deleteLast(){ // Delete Last
+      if (numberOfItems > 0) {
+         Employee nav = Tail.getPrevious();
+         Tail.setPrevious(nav.getPrevious());
+         nav.getPrevious().setNext(Tail);
+         numberOfItems--;
+      }
+   }
+    
+   public void deleteSpecific(Employee E){ // Delete Specific
+      Employee nav = Head.getNext();
+      while (nav != Tail) {
+         if (nav.equals(E)) {
+            nav.getPrevious().setNext(nav.getNext());
+            nav.getNext().setPrevious(nav.getPrevious());
+            numberOfItems--;
+            break;
+         }
+         nav = nav.getNext();
+      }
+   }
+    
+   public int findByValue(Employee E){ // Find by value (returns index)
+      Employee nav = Head.getNext();
+      int index = 0;
+    
+      while (nav != Tail) {
+         if (nav.equals(E)) { // comparing nav with E to chck if matches
+            return index;
+         }
+         nav = nav.getNext();
+         index++;
+      }
+      return -1; // -1 to indicate if employee not found/not in the list
+   }
+    
+   public Employee findbyIndex(int location){ // Find By Index
+      if (numberOfItems>0 && location < numberOfItems){
+         int x =0,y=numberOfItems-1;
+         Employee nav1 = Head.getNext();
+         Employee nav2 = Tail.getPrevious();
+         while (x<=y){
+            if(x==location) 
+               return nav1; //else x++;
+            if(y==location) 
+               return nav2; //else y--;
+            nav1 = nav1.getNext();
+            nav2 = nav2.getPrevious();
+            x++;
+            y--;
+         }
+         if (x == location) 
+            return nav1;
+         else 
+            return null;
+      }   
+      return null;
+   }
+   
+   public String searchEmployeeName(int location){ // Search Employee Name (assuming you want the name of the indexed Employee)
+      Employee employee = findbyIndex(location); 
+      if (employee != null) {
+         return employee.getName();
+      }
+      return "Employee not found"; // return this if there is nothing at this index
+   }
+   
+   public int searchEmployeeID(int location){ // Search Employee ID (assuming you want the ID of the indexed Employee)
+      Employee employee = findbyIndex(location); 
+      if (employee != null) {
+         return employee.getID();
+      }
+      return -1; // return -1 if there is nothing at this index
+   }
+      
+   public Employee Next(Employee E){ // Show Next Employee
+      if (E != null && E.getNext() != Tail) {
+         return E.getNext();
+      }
+      return null; // If there's no next Employee or E is null
+   }
+   
+   public Employee Previous(Employee E){ // Show Previous Employee
+      if (E != null && E.getPrevious() != Head) { // Ensure not at the start of the list
+         return E.getPrevious();
+      }
+      return null; // If there's no previous Employee or E is null
+   }
+        
+}
