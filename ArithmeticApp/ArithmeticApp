@@ -1,0 +1,137 @@
+import javax.swing.JOptionPane;
+import java.util.Stack;
+
+
+public class ArithmeticApp {
+   
+   // Conversion Method and Evaluation Method
+   
+   public static String inFixToPostFix(String expression){
+      // initialize variables
+      Stack<Character> s = new Stack<>();
+      StringBuilder result = new StringBuilder();
+      
+      // loop for every character in the expression
+      // checks variable (A-E), operations (+, -, *, /), and separator ('(' and ')'), then arrange them in postfix manner
+      for (int i = 0; i < expression.length(); i++) {
+         char c = expression.charAt(i);
+      
+         if (isVariable(c) == true) { // variable
+            result.append(c).append(' ');
+         }
+         
+         else if (c == '(') { // open parenthesis
+            s.push(c);
+         }
+         
+         else if (c == ')') { // close parenthesis
+            while (!s.isEmpty() && s.peek() != '(') { 
+               result.append(s.pop()).append(' ');
+            }
+            s.pop();
+         }
+         
+         else if (isOperator(c)) { // operator
+            while (!s.isEmpty() && operationOrder(c) <= operationOrder(s.peek())) {
+               result.append(s.pop()).append(' ');
+            }
+            s.push(c);
+         }
+      }
+      
+      // convert to string
+      while (!s.isEmpty()) {
+         result.append(s.pop()).append(' ');
+      }
+      // return string (trim removes any excess space)
+      return result.toString().trim();
+   }
+   
+   
+   public static int evaluatePostfix(String postfix, int[] values) {
+      // initialize variables
+      Stack<Integer> stack = new Stack<>();
+      
+      // loop for every character in the postfix expression
+      for (int i = 0; i < postfix.length(); i++) {
+         char c = postfix.charAt(i);
+      
+         if (Character.isLetter(c)) {
+            // the value of 'A' in ASCII is 65, B is 66, C is 67, and so on. Subtracting A-A = 0, B-A = 1, C-A = 2, ...
+            // this method of mapping is useful and does the same thing as a hashmap
+            int index = c - 'A'; 
+            stack.push(values[index]);
+         } 
+         
+         else if (isOperator(c)) { // if operator is detected, pop 2 values
+            int val2 = stack.pop();
+            int val1 = stack.pop();
+         
+            switch (c) { // push the result of the 2 values based on which operator used
+               case '+':
+                  stack.push(val1 + val2);
+                  break;
+               case '-':
+                  stack.push(val1 - val2);
+                  break;
+               case '*':
+                  stack.push(val1 * val2);
+                  break;
+               case '/':
+                  stack.push(val1 / val2);
+                  break;
+            }
+         }
+      }
+      
+      return stack.pop(); // return final result
+   }
+   
+   // Supporter and Simplifier Methods
+   
+   public static int operationOrder(char o) {
+      switch (o) {
+         case '+':
+         case '-':
+            return 1;
+         case '*':
+         case '/':
+            return 2;
+      }
+      return -1;
+   }
+   
+   public static boolean isOperator(char a){ 
+      return a == '+' || a == '-' || a == '*' || a == '/'; }
+   
+   public static boolean isVariable(char a){ 
+      return Character.isLetter(a); }
+   
+   // Main
+   
+   public static void main (String [] args){
+   
+      while(true){
+         int[] values = new int[5]; // initialize values (prep for A-E)
+         int counter = 0;
+         
+         String inFixExpression = JOptionPane.showInputDialog("Enter an infix expression (A to E):");
+         
+         for (char var = 'A'; var <= 'E'; var++) {
+         // Check if the variable is present in the infix expression
+            if (inFixExpression.indexOf(var) != -1) { // if exists, then assign value
+               String input = JOptionPane.showInputDialog("Enter value for " + var + ":");
+               values[var - 'A'] = Integer.parseInt(input);
+            }
+         }
+      
+         String postfixExpression = inFixToPostFix(inFixExpression.replaceAll("\\s+", ""));
+         int result = evaluatePostfix(postfixExpression.replaceAll("\\s+", ""), values);
+         // Print Result
+         JOptionPane.showMessageDialog(null, "Postfix Notation: " + postfixExpression + "\nGenerated Result: " + result);
+      }
+   }
+
+   
+
+}
