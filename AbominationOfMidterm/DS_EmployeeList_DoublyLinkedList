@@ -1,0 +1,222 @@
+import java.util.ArrayList;
+
+public class DS_EmployeeList_DoublyLinkedList {
+
+   // Doubly Linked List Implementation
+   
+   class Node {
+      Employee employee;
+      Node next;
+      Node prev;
+   
+      public Node(Employee employee) {
+         this.employee = employee;
+         this.next = null;
+         this.prev = null;
+      }
+   }
+
+   private Node head;  // first node ref 
+   private Node tail;  // last node ref 
+   private int size;
+
+   DS_EmployeeList_DoublyLinkedList() {
+      makeEmpty();
+   }
+
+   public void makeEmpty() {
+      head = null;
+      tail = null;
+      size = 0;
+   }
+   
+   // Getters
+   
+   public Employee getItem(int index) {
+      if (index < 0 || index >= size) {
+         throw new IndexOutOfBoundsException("Invalid index");
+      }
+   
+      Node current = head;
+      for (int i = 0; i < index; i++) {
+         current = current.next;
+      }
+      return current.employee;
+   }
+   
+   public int getSize() {
+      return size;
+   }
+   
+   public ArrayList<Employee> getList() {
+      ArrayList<Employee> list = new ArrayList<>();
+      Node current = head;
+      while (current != null) {
+         list.add(current.employee); // Add each employee to the list
+         current = current.next;
+      }
+      return list;  // Return the ArrayList of employees
+   }
+   
+   // Setters and Methods
+   
+   public void addItem(Employee E) {
+      Node newNode = new Node(E);
+      if (head == null) {
+         head = newNode;
+         tail = newNode;
+      } else {
+         tail.next = newNode;
+         newNode.prev = tail;
+         tail = newNode;
+      }
+      size++;
+   }
+
+   public void addItem(int index, Employee E) {
+      if (index < 0 || index > size) {
+         throw new IndexOutOfBoundsException("Invalid index");
+      }
+   
+      Node newNode = new Node(E);
+   
+      if (index == 0) {
+         // insert at head
+         if (head == null) {
+            head = newNode;
+            tail = newNode;
+         } else {
+            newNode.next = head;
+            head.prev = newNode;
+            head = newNode;
+         }
+      } else if (index == size) {
+         // insert at tail
+         tail.next = newNode;
+         newNode.prev = tail;
+         tail = newNode;
+      } else {
+         // insert in mid
+         Node current = head;
+         for (int i = 0; i < index; i++) {
+            current = current.next;
+         }
+         newNode.next = current;
+         newNode.prev = current.prev;
+         current.prev.next = newNode;
+         current.prev = newNode;
+      }
+      size++;
+   }
+
+   public int searchByName(String name) {
+      Node current = head;
+      int index = 0;
+      while (current != null) {
+         if (current.employee.getName().equals(name)) {
+            return index;
+         }
+         current = current.next;
+         index++;
+      }
+      return -1;  // Not found
+   }
+
+   public int searchByID(int id) {
+      Node current = head;
+      int index = 0;
+      while (current != null) {
+         if (current.employee.getID() == id) {
+            return index;
+         }
+         current = current.next;
+         index++;
+      }
+      return -1;  // Not found
+   }
+
+   public void remove() {
+      if (tail == null) {
+         return;  // List is empty
+      }
+   
+      if (tail == head) {
+         head = null;
+         tail = null;
+      } else {
+         tail = tail.prev;
+         tail.next = null;
+      }
+      size--;
+   }
+
+   public void removeByIndex(int index) {
+      if (index < 0 || index >= size) {
+         throw new IndexOutOfBoundsException("Invalid index");
+      }
+   
+      if (index == 0) {
+         // remove head
+         if (head == tail) {
+            head = null;
+            tail = null;
+         } else {
+            head = head.next;
+            head.prev = null;
+         }
+      } else if (index == size - 1) {
+         // remove tail
+         tail = tail.prev;
+         tail.next = null;
+      } else {
+         // remove mid
+         Node current = head;
+         for (int i = 0; i < index; i++) {
+            current = current.next;
+         }
+         current.prev.next = current.next;
+         current.next.prev = current.prev;
+      }
+      size--;
+   }
+   
+   public void removeByName(String name) {
+      Node current = head;
+      while (current != null) {
+         if (current.employee.getName().equalsIgnoreCase(name)) {
+            if (current.prev != null) {
+               current.prev.next = current.next;
+            } else {
+               head = current.next; // Updating head if first node is removed
+            }
+            if (current.next != null) {
+               current.next.prev = current.prev;
+            }
+            size--;
+            break; // Exit after removing the first matching employee
+         }
+         current = current.next;
+      }
+   }
+   
+   public boolean checkDuplicateID(int ID) {
+      Node current = head;
+      while (current != null) {
+         if (current.employee.getID() == ID) {
+            return true;  // duplicate found
+         }
+         current = current.next;
+      }
+      return false;  // no duplicate
+   }
+   
+   public String toString() {
+      StringBuilder str = new StringBuilder();
+      Node current = head;
+      while (current != null) {
+         str.append(current.employee.toString()).append("\n\n");
+         current = current.next;
+      }
+      return str.toString();
+   }
+}
