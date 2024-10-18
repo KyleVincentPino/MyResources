@@ -263,7 +263,59 @@ public class EmployeeApplication {
                   found = true;
                }
             }
-         } // Repeat for other data structures...
+         } else if (dataStructure instanceof DS_EmployeeStack_Array) {
+            DS_EmployeeStack_Array stack = (DS_EmployeeStack_Array) dataStructure;
+            for (int i = 0; i < stack.getSize(); i++) {
+               if (stack.getList()[i].getName().equalsIgnoreCase(name)) {
+                  JOptionPane.showMessageDialog(null, stack.getList()[i].toString());
+                  found = true;
+               }
+            }
+         } else if (dataStructure instanceof DS_EmployeeStack_LinkedList) {
+            DS_EmployeeStack_LinkedList stack = (DS_EmployeeStack_LinkedList) dataStructure;
+            for (Employee emp : stack.getList()) {
+               if (emp.getName().equalsIgnoreCase(name)) {
+                  JOptionPane.showMessageDialog(null, emp.toString());
+                  found = true;
+               }
+            }
+         } else if (dataStructure instanceof DS_EmployeeQueue_Array) {
+            DS_EmployeeQueue_Array queue = (DS_EmployeeQueue_Array) dataStructure;
+            for (int i = 0; i < queue.getSize(); i++) {
+               if (queue.getList()[i].getName().equalsIgnoreCase(name)) {
+                  JOptionPane.showMessageDialog(null, queue.getList()[i].toString());
+                  found = true;
+               }
+            }
+         } else if (dataStructure instanceof DS_EmployeeQueue_LinkedList) {
+            DS_EmployeeQueue_LinkedList queue = (DS_EmployeeQueue_LinkedList) dataStructure;
+            for (Employee emp : queue.getList()) {
+               if (emp.getName().equalsIgnoreCase(name)) {
+                  JOptionPane.showMessageDialog(null, emp.toString());
+                  found = true;
+               }
+            }
+         } else if (dataStructure instanceof ArrayList) {
+            ArrayList<Employee> list = (ArrayList<Employee>) dataStructure;
+            Employee[] arrList = new Employee[list.size()];
+            list.toArray(arrList);
+            for (Employee emp : arrList) {
+               if (emp.getName().equalsIgnoreCase(name)) {
+                  JOptionPane.showMessageDialog(null, emp.toString());
+                  found = true;
+               }
+            }
+         } else if (dataStructure instanceof Queue) {
+            Queue queue = (Queue) dataStructure;
+            Employee[] arrList = new Employee[queue.size()];
+            queue.toArray(arrList);
+            for (Employee emp : arrList) {
+               if (emp.getName().equalsIgnoreCase(name)) {
+                  JOptionPane.showMessageDialog(null, emp.toString());
+                  found = true;
+               }
+            }
+         }
       
          if (!found) {
             JOptionPane.showMessageDialog(null, "Employee not found.");
@@ -289,7 +341,59 @@ public class EmployeeApplication {
                   found = true;
                }
             }
-         } // Repeat for other data structures...
+         } else if (dataStructure instanceof DS_EmployeeStack_Array) {
+            DS_EmployeeStack_Array stack = (DS_EmployeeStack_Array) dataStructure;
+            for (int i = 0; i < stack.getSize(); i++) {
+               if (stack.getList()[i].getID() == id) {
+                  JOptionPane.showMessageDialog(null, stack.getList()[i].toString());
+                  found = true;
+               }
+            }
+         } else if (dataStructure instanceof DS_EmployeeStack_LinkedList) {
+            DS_EmployeeStack_LinkedList stack = (DS_EmployeeStack_LinkedList) dataStructure;
+            for (Employee emp : stack.getList()) {
+               if (emp.getID() == id) {
+                  JOptionPane.showMessageDialog(null, emp.toString());
+                  found = true;
+               }
+            }
+         } else if (dataStructure instanceof DS_EmployeeQueue_Array) {
+            DS_EmployeeQueue_Array queue = (DS_EmployeeQueue_Array) dataStructure;
+            for (int i = 0; i < queue.getSize(); i++) {
+               if (queue.getList()[i].getID() == id) {
+                  JOptionPane.showMessageDialog(null, queue.getList()[i].toString());
+                  found = true;
+               }
+            }
+         } else if (dataStructure instanceof DS_EmployeeQueue_LinkedList) {
+            DS_EmployeeQueue_LinkedList queue = (DS_EmployeeQueue_LinkedList) dataStructure;
+            for (Employee emp : queue.getList()) {
+               if (emp.getID() == id) {
+                  JOptionPane.showMessageDialog(null, emp.toString());
+                  found = true;
+               }
+            }
+         } else if (dataStructure instanceof ArrayList) {
+            ArrayList list = (ArrayList) dataStructure;
+            Employee[] arrList = new Employee[list.size()];
+            list.toArray(arrList);
+            for (Employee emp : arrList) {
+               if (emp.getID() == id) {
+                  JOptionPane.showMessageDialog(null, emp.toString());
+                  found = true;
+               }
+            }
+         } else if (dataStructure instanceof Queue) {
+            Queue queue = (Queue) dataStructure;
+            Employee[] arrList = new Employee[queue.size()];
+            queue.toArray(arrList);
+            for (Employee emp : arrList) {
+               if (emp.getID() == id) {
+                  JOptionPane.showMessageDialog(null, emp.toString());
+                  found = true;
+               }
+            }
+         }
       
          if (!found) {
             JOptionPane.showMessageDialog(null, "Employee not found.");
@@ -309,22 +413,73 @@ public class EmployeeApplication {
          } else if (dataStructure instanceof DS_EmployeeList_DoublyLinkedList) {
             DS_EmployeeList_DoublyLinkedList list = (DS_EmployeeList_DoublyLinkedList) dataStructure;
             list.removeByIndex(index);
-         } // Repeat for other data structures...
-        
+         } else if (dataStructure instanceof DS_EmployeeStack_Array) {
+            DS_EmployeeStack_Array stack = (DS_EmployeeStack_Array) dataStructure;
+            stack.pop();
+         } else if (dataStructure instanceof DS_EmployeeStack_LinkedList) {
+            DS_EmployeeStack_LinkedList stack = (DS_EmployeeStack_LinkedList) dataStructure;
+            stack.pop();
+         } else if (dataStructure instanceof DS_EmployeeQueue_Array) {
+            DS_EmployeeQueue_Array queue = (DS_EmployeeQueue_Array) dataStructure;
+            queue.dequeue();
+         } else if (dataStructure instanceof DS_EmployeeQueue_LinkedList) {
+            DS_EmployeeQueue_LinkedList queue = (DS_EmployeeQueue_LinkedList) dataStructure;
+            queue.removeByIndex(index);
+         } else if (dataStructure instanceof ArrayList) {
+            ArrayList list = (ArrayList) dataStructure;
+            list.remove(index);
+         } else if (dataStructure instanceof Queue) {
+            Queue queue = (Queue) dataStructure;
+            queue.remove();
+         }
+      
          JOptionPane.showMessageDialog(null, "Employee removed successfully.");
       } else if (choice == 2) {
          String name = JOptionPane.showInputDialog("Enter name to remove:");
+         boolean found = false;
+      
          if (dataStructure instanceof DS_EmployeeList_Array) {
             DS_EmployeeList_Array list = (DS_EmployeeList_Array) dataStructure;
-            list.removeByName(name);
+            int indexToRemove = list.searchByName(name);
+            if (indexToRemove != -1) {
+               list.removeByIndex(indexToRemove);
+               found = true;
+            }
          } else if (dataStructure instanceof DS_EmployeeList_DoublyLinkedList) {
             DS_EmployeeList_DoublyLinkedList list = (DS_EmployeeList_DoublyLinkedList) dataStructure;
-            list.removeByName(name);
-         } // Repeat for other data structures...
+            int indexToRemove = list.searchByName(name);
+            if (indexToRemove != -1) {
+               list.removeByIndex(indexToRemove);
+               found = true;
+            }
+         } else if (dataStructure instanceof DS_EmployeeStack_Array) {
+            DS_EmployeeStack_Array stack = (DS_EmployeeStack_Array) dataStructure;
+            stack.pop();
+         } else if (dataStructure instanceof DS_EmployeeStack_LinkedList) {
+            DS_EmployeeStack_LinkedList stack = (DS_EmployeeStack_LinkedList) dataStructure;
+            stack.pop();
+         } else if (dataStructure instanceof DS_EmployeeQueue_Array) {
+            DS_EmployeeQueue_Array queue = (DS_EmployeeQueue_Array) dataStructure;
+            queue.dequeue();
+         } else if (dataStructure instanceof DS_EmployeeQueue_LinkedList) {
+            DS_EmployeeQueue_LinkedList queue = (DS_EmployeeQueue_LinkedList) dataStructure;
+            queue.remove();
+         } else if (dataStructure instanceof ArrayList) {
+            ArrayList list = (ArrayList) dataStructure;
+            list.remove(0);
+         } else if (dataStructure instanceof Queue) {
+            Queue queue = (Queue) dataStructure;
+            queue.remove();
+         }
       
-         JOptionPane.showMessageDialog(null, "Employee removed successfully.");
+         if (found) {
+            JOptionPane.showMessageDialog(null, "Employee removed successfully.");
+         } else {
+            JOptionPane.showMessageDialog(null, "Employee not found.");
+         }
       }
    }
+
 
    private static Employee[] getEmployeesFromDataStructure(Object dataStructure) {
       if (dataStructure instanceof DS_EmployeeList_Array) {
