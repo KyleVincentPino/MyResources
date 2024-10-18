@@ -26,10 +26,10 @@ public class DS_EmployeeQueue_LinkedList {
          System.out.println("Duplicate ID! Employee not added.");
       }
    }
-
+   
    public void remove() {
       if (!employeeList.isEmpty()) {
-         employeeList.removeLast(); // Remove last employee
+         employeeList.removeFirst();
       } else {
          System.out.println("List is empty, nothing to remove.");
       }
