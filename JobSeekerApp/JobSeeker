@@ -1,0 +1,92 @@
+import java.util.List;
+
+public class JobSeeker {
+    private String id;                // Unique ID for the job seeker
+    private String name;              // Name of the job seeker
+    private String email;             // Email address
+    private String phoneNumber;       // Contact number
+    private List<String> skills;      // List of skills
+    private int experience;           // Number of years of experience
+    private String financialNeed;     // Financial priority (e.g., "High", "Medium", "Low")
+
+    // Constructor
+    public JobSeeker(String id, String name, String email, String phoneNumber, List<String> skills, int experience, String financialNeed, String desiredJob) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.skills = skills;
+        this.experience = experience;
+        this.financialNeed = financialNeed;
+    }
+
+    // Getters and Setters
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public List<String> getSkills() {
+        return skills;
+    }
+
+    public void setSkills(List<String> skills) {
+        this.skills = skills;
+    }
+
+    public int getExperience() {
+        return experience;
+    }
+
+    public void setExperience(int experience) {
+        this.experience = experience;
+    }
+
+    public String getFinancialNeed() {
+        return financialNeed;
+    }
+
+    public void setFinancialNeed(String financialNeed) {
+        this.financialNeed = financialNeed;
+    }
+
+    @Override
+    public String toString() {
+        return "JobSeeker{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", skills=" + skills +
+                ", experience=" + experience +
+                ", financialNeed='" + financialNeed + '\'' +
+                '}';
+    }
+}
