@@ -7,7 +7,7 @@ public class BST_Node <T extends Comparable<T>> {
         this.leftTree = null;
         this.rightTree = null;
     }
-
+    
     public T getData() {
         return data;
     }
