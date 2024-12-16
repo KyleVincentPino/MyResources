@@ -1,6 +1,4 @@
-package ds_le;
-
-public class Employer {
+\public class Employer implements Comparable<Employer> {
     private String id;                // Unique ID for the employer
     private String companyName;       // Name of the company
     private String email;             // Employer's email address
@@ -55,6 +53,11 @@ public class Employer {
 
     public void setIndustryType(String industryType) {
         this.industryType = industryType;
+    }
+    
+    @Override
+    public int compareTo(Employer other) {
+        return this.id.compareTo(other.id);  // Assuming comparing by id (you can adjust this logic)
     }
 
     @Override
