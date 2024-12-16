@@ -1,99 +1,49 @@
-package ds_le;
-
-public class BST<T extends Comparable<T>> {
-    private BST_Node<T> root;
+public class BST {
+    private BinaryTree<JobSeeker> jobSeekerTree;
+    private BinaryTree<Employer> employerTree;
 
     public BST() {
-        root = null;
+        jobSeekerTree = new BinaryTree<>();
+        employerTree = new BinaryTree<>();
     }
 
-    // Insert a new node into the BST
-    public void insert(T data) {
-        root = insertRecursive(root, data);
+    // Insert JobSeeker into the tree
+    public void insertJobSeeker(JobSeeker jobSeeker) {
+        jobSeekerTree.insert(jobSeeker);
     }
 
-    private BST_Node<T> insertRecursive(BST_Node<T> node, T data) {
-        if (node == null) {
-            return new BST_Node<>(data);
-        }
-
-        if (data.compareTo(node.getData()) < 0) {
-            node.setLeftTree(insertRecursive(node.getLeftTree(), data));
-        } else if (data.compareTo(node.getData()) > 0) {
-            node.setRightTree(insertRecursive(node.getRightTree(), data));
-        }
-
-        return node;
+    // Insert Employer into the tree
+    public void insertEmployer(Employer employer) {
+        employerTree.insert(employer);
     }
 
-    // Search for a node by value
-    public boolean search(T data) {
-        return searchRecursive(root, data);
+    // Search for JobSeeker by ID
+    public JobSeeker findJobSeekerById(String id) {
+        return jobSeekerTree.search(new JobSeeker(id, "", "", "", null, 0, "", 0));
     }
 
-    private boolean searchRecursive(BST_Node<T> node, T data) {
-        if (node == null) {
-            return false;
-        }
-
-        if (data.compareTo(node.getData()) == 0) {
-            return true;
-        }
-
-        return data.compareTo(node.getData()) < 0
-                ? searchRecursive(node.getLeftTree(), data)
-                : searchRecursive(node.getRightTree(), data);
+    // Search for Employer by ID
+    public Employer findEmployerById(String id) {
+        return employerTree.search(new Employer(id, "", "", "", ""));
     }
 
-    // Delete a node from the BST
-    public void delete(T data) {
-        root = deleteRecursive(root, data);
+    // In-order traversal of JobSeekers
+    public void displayJobSeekers() {
+        jobSeekerTree.inorderTraversal();
     }
 
-    private BST_Node<T> deleteRecursive(BST_Node<T> node, T data) {
-        if (node == null) {
-            return null;
-        }
-
-        if (data.compareTo(node.getData()) < 0) {
-            node.setLeftTree(deleteRecursive(node.getLeftTree(), data));
-        } else if (data.compareTo(node.getData()) > 0) {
-            node.setRightTree(deleteRecursive(node.getRightTree(), data));
-        } else {
-            // Node to be deleted found
-            if (node.getLeftTree() == null) {
-                return node.getRightTree();
-            } else if (node.getRightTree() == null) {
-                return node.getLeftTree();
-            }
-
-            // Node with two children
-            node.setData(minValue(node.getRightTree()));
-            node.setRightTree(deleteRecursive(node.getRightTree(), node.getData()));
-        }
-
-        return node;
+    // In-order traversal of Employers
+    public void displayEmployers() {
+        employerTree.inorderTraversal();
     }
 
-    private T minValue(BST_Node<T> node) {
-        T minValue = node.getData();
-        while (node.getLeftTree() != null) {
-            minValue = node.getLeftTree().getData();
-            node = node.getLeftTree();
-        }
-        return minValue;
+    // Delete a JobSeeker from the tree
+    public void deleteJobSeeker(JobSeeker jobSeeker) {
+        jobSeekerTree.delete(jobSeeker);
     }
 
-    // In-order traversal of the tree
-    public void inOrder() {
-        inOrderRecursive(root);
-    }
-
-    private void inOrderRecursive(BST_Node<T> node) {
-        if (node != null) {
-            inOrderRecursive(node.getLeftTree());
-            System.out.println(node.getData());
-            inOrderRecursive(node.getRightTree());
-        }
+    // Delete an Employer from the tree
+    public void deleteEmployer(Employer employer) {
+        employerTree.delete(employer);
     }
 }
