@@ -1,70 +1,71 @@
-public class BinaryTree {
-    
-    BST_Node<JobSeeker> root;
+package ds_le;
 
-    public void InOrder(BST_Node t){       
-        if (t != null)  {
-            InOrder(t.getLeftTree());
-            System.out.println(t.getData().getName() + " - Priority: " + t.getData().calculatePriority());
-            InOrder(t.getRightTree());
-        }
-    }
-    
-    public void PostOrder(BST_Node t) {
-        if (t != null)
-        {
-            PostOrder(t.getLeftTree());
-            PostOrder(t.getRightTree());
-            System.out.print(t.getData().getName() + " - Priority: " + t.getData().calculatePriority());
-        }
-    }
-     
-    public void PreOrder(BST_Node t) {
-        if (t != null)
-        {
-            System.out.print(t.getData().getName() + " - Priority: " + t.getData().calculatePriority());
-            PreOrder(t.getLeftTree());
-            PreOrder(t.getRightTree());
-        }
-     }
-       
-    public void InOrder_toChar(BST_Node t) {        
-        if (t != null)  {
-            InOrder_toChar(t.getLeftTree());
-             System.out.print((char)t.getData());
-            InOrder_toChar(t.getRightTree());
-        }
-    }
-    
-    public void PostOrder_toChar(BST_Node t) {
-        if (t != null) {
-            PostOrder_toChar(t.getLeftTree());
-            PostOrder_toChar(t.getRightTree());
-            System.out.print((char)t.getData());
-        }
-    }
-     
-    public void PreOrder_toChar(BST_Node t) {
-        if (t != null) {
-        System.out.print((char)t.getData());
-        PreOrder_toChar(t.getLeftTree());
-           PreOrder_toChar(t.getRightTree());
-       }
-    }
-     
-    public int getHeight(BST_Node bt) {
-       if(bt == null)
-           return -1;
-       else
-           return 1 + Math.max(getHeight(bt.getLeftTree()),getHeight(bt.getRightTree()));
-    }
-    
-    public BST_Node<JobSeeker> getRoot(){
-        return root;       
-    }
-    
-    public void setRoot(BST_Node<JobSeeker> r){
-       root = r;
+public class BinaryTree<T extends Comparable<T>> {  // Add the Comparable constraint here
+    private BST_Node<T> root;
+
+    public BinaryTree() {
+        root = null;
     }
 
+    // Insert a new node into the Binary Tree (not ordered)
+    public void insert(T data) {
+        root = insertRecursive(root, data);
+    }
+
+    private BST_Node<T> insertRecursive(BST_Node<T> node, T data) {
+        if (node == null) {
+            return new BST_Node<>(data);
+        }
+
+        // Insert data in the left subtree if possible, otherwise in the right
+        if (node.getLeftTree() == null) {
+            node.setLeftTree(new BST_Node<>(data));
+        } else if (node.getRightTree() == null) {
+            node.setRightTree(new BST_Node<>(data));
+        } else {
+            // If both left and right are occupied, insert into the left or right depending on your logic
+            node.setLeftTree(insertRecursive(node.getLeftTree(), data));
+        }
+
+        return node;
+    }
+
+    // Pre-order traversal of the tree
+    public void preOrder() {
+        preOrderRecursive(root);
+    }
+
+    private void preOrderRecursive(BST_Node<T> node) {
+        if (node != null) {
+            System.out.println(node.getData());
+            preOrderRecursive(node.getLeftTree());
+            preOrderRecursive(node.getRightTree());
+        }
+    }
+
+    // Post-order traversal of the tree
+    public void postOrder() {
+        postOrderRecursive(root);
+    }
+
+    private void postOrderRecursive(BST_Node<T> node) {
+        if (node != null) {
+            postOrderRecursive(node.getLeftTree());
+            postOrderRecursive(node.getRightTree());
+            System.out.println(node.getData());
+        }
+    }
+
+    // In-order traversal of the tree
+    public void inOrder() {
+        inOrderRecursive(root);
+    }
+
+    private void inOrderRecursive(BST_Node<T> node) {
+        if (node != null) {
+            inOrderRecursive(node.getLeftTree());
+            System.out.println(node.getData());
+            inOrderRecursive(node.getRightTree());
+        }
+    }
 }
