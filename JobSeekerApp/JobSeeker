@@ -1,5 +1,4 @@
-package ds_le;
-
+import java.util.ArrayList;
 import java.util.List;
 
 public class JobSeeker implements Comparable<JobSeeker> {
@@ -18,25 +17,11 @@ public class JobSeeker implements Comparable<JobSeeker> {
         this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
-        this.skills = skills;
+        // Initialize skills list to avoid null values
+        this.skills = skills != null ? skills : new ArrayList<>();
         this.experience = experience;
         this.financialNeed = financialNeed;
         this.urgency = urgency;
-    }
-
-    // Priority calculation
-    public int calculatePriority() {
-        int skillPriority = skills.size() * 5; // example: each skill adds 5 points
-        int experiencePriority = experience * 10; // example: each year of experience adds 10 points
-        int financialPriority = "High".equals(financialNeed) ? 20 : "Medium".equals(financialNeed) ? 10 : 5; // financial need weights
-
-        return skillPriority + experiencePriority + financialPriority + urgency * 30; // urgency has the most weight
-    }
-
-    // Implementing Comparable to compare JobSeeker objects based on priority
-    @Override
-    public int compareTo(JobSeeker other) {
-        return Integer.compare(this.calculatePriority(), other.calculatePriority());
     }
 
     // Getters and Setters
@@ -72,12 +57,15 @@ public class JobSeeker implements Comparable<JobSeeker> {
         this.phoneNumber = phoneNumber;
     }
 
+    // Getters and setters for skills
     public List<String> getSkills() {
-        return skills;
+        // Return an empty list if skills is null to avoid NullPointerException
+        return skills != null ? skills : new ArrayList<>();
     }
 
     public void setSkills(List<String> skills) {
-        this.skills = skills;
+        // If the input skills list is null, initialize it as an empty list
+        this.skills = skills != null ? skills : new ArrayList<>();
     }
 
     public int getExperience() {
@@ -102,6 +90,25 @@ public class JobSeeker implements Comparable<JobSeeker> {
 
     public void setUrgency(int urgency) {
         this.urgency = urgency;
+    }
+
+    // Calculate priority based on attributes like skills, experience, financial need, and urgency
+    public int calculatePriority() {
+        int priority = 0;
+
+        // Calculate priority based on skills, experience, financial need, and urgency
+        priority += (skills.size() * 5); // Example: 5 points for each skill
+        priority += (experience * 10);  // Example: 10 points for each year of experience
+        priority += ("High".equals(financialNeed) ? 20 : ("Medium".equals(financialNeed) ? 10 : 5));
+        priority += (urgency * 30);  // Example: 30 points for each urgency level
+
+        return priority;
+    }
+
+    // Compare JobSeekers based on priority
+    @Override
+    public int compareTo(JobSeeker other) {
+        return Integer.compare(this.calculatePriority(), other.calculatePriority());
     }
 
     @Override
