@@ -1,11 +1,11 @@
 public class BinaryTree {
     
-    BST_Node root;
+    BST_Node<JobSeeker> root;
 
     public void InOrder(BST_Node t){       
         if (t != null)  {
             InOrder(t.getLeftTree());
-             System.out.print(t.getData());
+            System.out.println(t.getData().getName() + " - Priority: " + t.getData().calculatePriority());
             InOrder(t.getRightTree());
         }
     }
@@ -15,20 +15,19 @@ public class BinaryTree {
         {
             PostOrder(t.getLeftTree());
             PostOrder(t.getRightTree());
-            System.out.print(t.getData());
+            System.out.print(t.getData().getName() + " - Priority: " + t.getData().calculatePriority());
         }
     }
      
     public void PreOrder(BST_Node t) {
         if (t != null)
         {
-            System.out.print(t.getData());
+            System.out.print(t.getData().getName() + " - Priority: " + t.getData().calculatePriority());
             PreOrder(t.getLeftTree());
             PreOrder(t.getRightTree());
         }
      }
-     
-     
+       
     public void InOrder_toChar(BST_Node t) {        
         if (t != null)  {
             InOrder_toChar(t.getLeftTree());
@@ -52,11 +51,6 @@ public class BinaryTree {
            PreOrder_toChar(t.getRightTree());
        }
     }
-
-    public BST_Node getRoot(){
-        return root;
-        
-    }
      
     public int getHeight(BST_Node bt) {
        if(bt == null)
@@ -64,9 +58,13 @@ public class BinaryTree {
        else
            return 1 + Math.max(getHeight(bt.getLeftTree()),getHeight(bt.getRightTree()));
     }
-
-    public void setRoot(BST_Node r){
-       root=r;
+    
+    public BST_Node<JobSeeker> getRoot(){
+        return root;       
+    }
+    
+    public void setRoot(BST_Node<JobSeeker> r){
+       root = r;
     }
 
 }
