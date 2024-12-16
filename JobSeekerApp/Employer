@@ -1,3 +1,5 @@
+package ds_le;
+
 public class Employer {
     private String id;                // Unique ID for the employer
     private String companyName;       // Name of the company
