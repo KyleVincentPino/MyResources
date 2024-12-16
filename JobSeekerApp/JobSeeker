@@ -1,6 +1,8 @@
+package ds_le;
+
 import java.util.List;
 
-public class JobSeeker {
+public class JobSeeker implements Comparable<JobSeeker> {
     private String id;                // Unique ID for the job seeker
     private String name;              // Name of the job seeker
     private String email;             // Email address
@@ -8,9 +10,10 @@ public class JobSeeker {
     private List<String> skills;      // List of skills
     private int experience;           // Number of years of experience
     private String financialNeed;     // Financial priority (e.g., "High", "Medium", "Low")
-    private int urgency;             // 1 for low, 2 for medium, 3 for high urgency
+    private int urgency;              // 1 for low, 2 for medium, 3 for high urgency
+
     // Constructor
-    public JobSeeker(String id, String name, String email, String phoneNumber, List<String> skills, int experience, String financialNeed, String desiredJob) {
+    public JobSeeker(String id, String name, String email, String phoneNumber, List<String> skills, int experience, String financialNeed, int urgency) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -21,12 +24,19 @@ public class JobSeeker {
         this.urgency = urgency;
     }
 
+    // Priority calculation
     public int calculatePriority() {
         int skillPriority = skills.size() * 5; // example: each skill adds 5 points
         int experiencePriority = experience * 10; // example: each year of experience adds 10 points
         int financialPriority = "High".equals(financialNeed) ? 20 : "Medium".equals(financialNeed) ? 10 : 5; // financial need weights
 
         return skillPriority + experiencePriority + financialPriority + urgency * 30; // urgency has the most weight
+    }
+
+    // Implementing Comparable to compare JobSeeker objects based on priority
+    @Override
+    public int compareTo(JobSeeker other) {
+        return Integer.compare(this.calculatePriority(), other.calculatePriority());
     }
 
     // Getters and Setters
@@ -87,12 +97,13 @@ public class JobSeeker {
     }
 
     public int getUrgency() {
-        return Urgency;
+        return urgency;
     }
 
     public void setUrgency(int urgency) {
         this.urgency = urgency;
     }
+
     @Override
     public String toString() {
         return "JobSeeker{" +
