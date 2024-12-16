@@ -55,6 +55,19 @@ public class BinarySearchTree <T extends Comparable<T>> {
         return findMin(t.getLeftTree());
     }
     
+    public BST_Node<T> insertByPriority(BST_Node<T> t, Jobseeker jobseeker) {
+        int priority = jobSeeker.calculatePriority();
+        if (t == null) {
+            return new BST_Node<>(priority);
+        }
+        if (priority < (int)t.getData()) {
+            t.setLeftTree(insertByPriority(t.getLeftTree(), jobseeker));
+        }
+        else if (priority < (int) t.getData()) {
+            t.setLeftTree(insertByPriority(t.getLeftTree(), jobseeker));
+        }
+        return t;
+    }
     public boolean search(BST_Node<T> t, T value) {
         if (t == null) return false;
 
@@ -83,4 +96,3 @@ public class BinarySearchTree <T extends Comparable<T>> {
         return postOrder(t.getLeftTree()) + postOrder(t.getRightTree()) + t.getData().toString() + " ";
     }
 }
-
