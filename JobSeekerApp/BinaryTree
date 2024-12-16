@@ -1,71 +1,108 @@
-package ds_le;
+package BST_DS_LE;
 
-public class BinaryTree<T extends Comparable<T>> {  // Add the Comparable constraint here
+public class BinaryTree<T extends Comparable<T>> {
     private BST_Node<T> root;
 
     public BinaryTree() {
-        root = null;
+        this.root = null;
     }
 
-    // Insert a new node into the Binary Tree (not ordered)
+    // Insert a node into the tree
     public void insert(T data) {
-        root = insertRecursive(root, data);
+        root = insertRec(root, data);
     }
 
-    private BST_Node<T> insertRecursive(BST_Node<T> node, T data) {
-        if (node == null) {
-            return new BST_Node<>(data);
+    private BST_Node<T> insertRec(BST_Node<T> root, T data) {
+        if (root == null) {
+            root = new BST_Node<>(data);
+            return root;
         }
 
-        // Insert data in the left subtree if possible, otherwise in the right
-        if (node.getLeftTree() == null) {
-            node.setLeftTree(new BST_Node<>(data));
-        } else if (node.getRightTree() == null) {
-            node.setRightTree(new BST_Node<>(data));
-        } else {
-            // If both left and right are occupied, insert into the left or right depending on your logic
-            node.setLeftTree(insertRecursive(node.getLeftTree(), data));
+        // Compare the data and insert accordingly
+        if (data.compareTo(root.getData()) < 0) {
+            root.setLeftTree(insertRec(root.getLeftTree(), data));
+        } 
+        else if (data.compareTo(root.getData()) > 0) {
+            root.setRightTree(insertRec(root.getRightTree(), data));
         }
 
-        return node;
+        return root;
     }
 
-    // Pre-order traversal of the tree
-    public void preOrder() {
-        preOrderRecursive(root);
+    // Search for a node in the tree
+    public T search(T data) {
+        return searchRec(root, data);
     }
 
-    private void preOrderRecursive(BST_Node<T> node) {
-        if (node != null) {
-            System.out.println(node.getData());
-            preOrderRecursive(node.getLeftTree());
-            preOrderRecursive(node.getRightTree());
+    private T searchRec(BST_Node<T> root, T data) {
+        if (root == null || root.getData().equals(data)) {
+            return root != null ? root.getData() : null;
         }
-    }
 
-    // Post-order traversal of the tree
-    public void postOrder() {
-        postOrderRecursive(root);
-    }
-
-    private void postOrderRecursive(BST_Node<T> node) {
-        if (node != null) {
-            postOrderRecursive(node.getLeftTree());
-            postOrderRecursive(node.getRightTree());
-            System.out.println(node.getData());
+        // Search left or right based on comparison
+        if (data.compareTo(root.getData()) < 0) {
+            return searchRec(root.getLeftTree(), data);
+        } 
+        else {
+            return searchRec(root.getRightTree(), data);
         }
     }
 
-    // In-order traversal of the tree
-    public void inOrder() {
-        inOrderRecursive(root);
+    // In-order traversal of the tree (to display elements in sorted order)
+    public void inorderTraversal() {
+        inorderRec(root);
     }
 
-    private void inOrderRecursive(BST_Node<T> node) {
-        if (node != null) {
-            inOrderRecursive(node.getLeftTree());
-            System.out.println(node.getData());
-            inOrderRecursive(node.getRightTree());
+    private void inorderRec(BST_Node<T> root) {
+        if (root != null) {
+            inorderRec(root.getLeftTree());
+            System.out.println(root.getData());
+            inorderRec(root.getRightTree());
         }
+    }
+
+    // Delete a node from the tree
+    public void delete(T data) {
+        root = deleteRec(root, data);
+    }
+
+    private BST_Node<T> deleteRec(BST_Node<T> root, T data) {
+        if (root == null) {
+            return root;
+        }
+
+        // Compare data to find the node to be deleted
+        if (data.compareTo(root.getData()) < 0) {
+            root.setLeftTree(deleteRec(root.getLeftTree(), data));
+        } 
+        else if (data.compareTo(root.getData()) > 0) {
+            root.setRightTree(deleteRec(root.getRightTree(), data));
+        } 
+        else {
+            // Node to be deleted found
+            if (root.getLeftTree() == null) {
+                return root.getRightTree();
+            } else if (root.getRightTree() == null) {
+                return root.getLeftTree();
+            }
+
+            // Node with two children: Get the inorder successor (smallest in the right subtree)
+            root.setData(minValue(root.getRightTree()));
+
+            // Delete the inorder successor
+            root.setRightTree(deleteRec(root.getRightTree(), root.getData()));
+        }
+
+        return root;
+    }
+
+    // Get the minimum value node in a given tree
+    private T minValue(BST_Node<T> root) {
+        T minValue = root.getData();
+        while (root.getLeftTree() != null) {
+            minValue = root.getLeftTree().getData();
+            root = root.getLeftTree();
+        }
+        return minValue;
     }
 }
