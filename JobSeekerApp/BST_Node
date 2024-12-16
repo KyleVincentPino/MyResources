@@ -1,6 +1,9 @@
-public class BST_Node <T extends Comparable<T>> {
+package ds_le;
+
+public class BST_Node<T extends Comparable<T>> {
     private T data;
-    private BST_Node<T> leftTree, rightTree;
+    private BST_Node<T> leftTree;
+    private BST_Node<T> rightTree;
 
     public BST_Node(T data) {
         this.data = data;
