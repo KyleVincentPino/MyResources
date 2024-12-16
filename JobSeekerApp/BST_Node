@@ -1,0 +1,39 @@
+public class BST_Node <T extends Comparable<T>> {
+    private T data;
+    private BST_Node<T> leftTree, rightTree;
+
+    public BST_Node(T data) {
+        this.data = data;
+        this.leftTree = null;
+        this.rightTree = null;
+    }
+
+    public T getData() {
+        return data;
+    }
+
+    public void setData(T data) {
+        this.data = data;
+    }
+
+    public BST_Node<T> getLeftTree() {
+        return leftTree;
+    }
+
+    public void setLeftTree(BST_Node<T> leftTree) {
+        this.leftTree = leftTree;
+    }
+
+    public BST_Node<T> getRightTree() {
+        return rightTree;
+    }
+
+    public void setRightTree(BST_Node<T> rightTree) {
+        this.rightTree = rightTree;
+    }
+
+    @Override
+    public String toString() {
+        return "Node{" + "data=" + data + '}';
+    }
+}
