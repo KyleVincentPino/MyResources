@@ -1,0 +1,86 @@
+public class BinarySearchTree <T extends Comparable<T>> {
+    private BST_Node<T> root;
+
+    public BinarySearchTree() {
+        this.root = root;
+    }
+
+    public BST_Node<T> getRoot() {
+        return root;
+    }
+
+    public void setRoot(BST_Node<T> root) {
+        this.root = root;
+    }
+
+    public BST_Node<T> insert(BST_Node<T> t, T value) {
+        if (t == null) return new BST_Node<>(value);
+
+
+        if (value.compareTo(t.getData()) < 0) {
+            t.setLeftTree(insert(t.getLeftTree(), value));
+        } 
+        else if (value.compareTo(t.getData()) > 0) {
+            t.setRightTree(insert(t.getRightTree(), value));
+        }
+        return t;
+    }
+
+    public BST_Node<T> remove(BST_Node<T> t, T value) {
+        if (t == null) return null;
+
+        if (value.compareTo(t.getData()) < 0) {
+            t.setLeftTree(remove(t.getLeftTree(), value));
+        } 
+        else if (value.compareTo(t.getData()) > 0) {
+            t.setRightTree(remove(t.getRightTree(), value));
+        } 
+        else {
+            if (t.getLeftTree() == null) {
+                return t.getRightTree();
+            }
+            if (t.getRightTree() == null) {
+                return t.getLeftTree();
+            }
+
+            BST_Node<T> minNode = findMin(t.getRightTree());
+            t.setData(minNode.getData());
+            t.setRightTree(remove(t.getRightTree(), minNode.getData()));
+        }
+        return t;
+    }
+
+    public BST_Node<T> findMin(BST_Node<T> t) {
+        if (t == null || t.getLeftTree() == null) return t;
+        return findMin(t.getLeftTree());
+    }
+    
+    public boolean search(BST_Node<T> t, T value) {
+        if (t == null) return false;
+
+        if (value.compareTo(t.getData()) < 0) {
+            return search(t.getLeftTree(), value);
+        } 
+        else if (value.compareTo(t.getData()) > 0) {
+            return search(t.getRightTree(), value);
+        } 
+        else {
+            return true;
+        }
+    }
+    public String inOrder(BST_Node<T> t) {
+        if (t == null) return "";
+        return inOrder(t.getLeftTree()) + t.getData().toString() + " " + inOrder(t.getRightTree());
+    }
+
+    public String preOrder(BST_Node<T> t) {
+        if (t == null) return "";
+        return t.getData().toString() + " " + preOrder(t.getLeftTree()) + preOrder(t.getRightTree());
+    }
+
+    public String postOrder(BST_Node<T> t) {
+        if (t == null) return "";
+        return postOrder(t.getLeftTree()) + postOrder(t.getRightTree()) + t.getData().toString() + " ";
+    }
+}
+
