@@ -2,7 +2,7 @@ public class BinarySearchTree <T extends Comparable<T>> {
     private BST_Node<T> root;
 
     public BinarySearchTree() {
-        this.root = root;
+        this.root = null;
     }
 
     public BST_Node<T> getRoot() {
@@ -12,10 +12,25 @@ public class BinarySearchTree <T extends Comparable<T>> {
     public void setRoot(BST_Node<T> root) {
         this.root = root;
     }
+    
+    public void inOrderTraversal() {
+        inOrder(this.root);
+    }
+    
+    public void inOrder(BST_Node<JobSeeker> t) {
+        if (t != null) {
+            inOrder(t.getLeftTree());
+            System.out.println(t.getData().getName() + " - Priority: " + t.getData().calculatePriority());
+            inOrder(t.getRightTree());
+        }
+    }
+    
+    public void insert(JobSeeker jobseeker) {
+        this.root = insertByPriority(this.root, jobseeker);
+    }
 
     public BST_Node<T> insert(BST_Node<T> t, T value) {
         if (t == null) return new BST_Node<>(value);
-
 
         if (value.compareTo(t.getData()) < 0) {
             t.setLeftTree(insert(t.getLeftTree(), value));
@@ -25,17 +40,32 @@ public class BinarySearchTree <T extends Comparable<T>> {
         }
         return t;
     }
+    
+    public BST_Node<JobSeeker> insertByPriority(BST_Node<JobSeeker> t, JobSeeker jobseeker) {
+        int priority = jobseeker.calculatePriority();
+        if (t == null) {
+            return new BST_Node<>(jobseeker);
+        }
+
+        JobSeeker currentJobSeeker = t.getData();
+        int currentPriority = currentJobSeeker.calculatePriority();
+
+        if (priority < currentPriority) {
+            t.setLeftTree(insertByPriority(t.getLeftTree(), jobseeker));
+        } else if (priority > currentPriority) {
+            t.setRightTree(insertByPriority(t.getRightTree(), jobseeker));
+        }
+        return t;
+    }
 
     public BST_Node<T> remove(BST_Node<T> t, T value) {
         if (t == null) return null;
 
         if (value.compareTo(t.getData()) < 0) {
             t.setLeftTree(remove(t.getLeftTree(), value));
-        } 
-        else if (value.compareTo(t.getData()) > 0) {
+        } else if (value.compareTo(t.getData()) > 0) {
             t.setRightTree(remove(t.getRightTree(), value));
-        } 
-        else {
+        } else {
             if (t.getLeftTree() == null) {
                 return t.getRightTree();
             }
@@ -55,19 +85,6 @@ public class BinarySearchTree <T extends Comparable<T>> {
         return findMin(t.getLeftTree());
     }
     
-    public BST_Node<T> insertByPriority(BST_Node<T> t, Jobseeker jobseeker) {
-        int priority = jobSeeker.calculatePriority();
-        if (t == null) {
-            return new BST_Node<>(priority);
-        }
-        if (priority < (int)t.getData()) {
-            t.setLeftTree(insertByPriority(t.getLeftTree(), jobseeker));
-        }
-        else if (priority < (int) t.getData()) {
-            t.setLeftTree(insertByPriority(t.getLeftTree(), jobseeker));
-        }
-        return t;
-    }
     public boolean search(BST_Node<T> t, T value) {
         if (t == null) return false;
 
@@ -80,19 +97,5 @@ public class BinarySearchTree <T extends Comparable<T>> {
         else {
             return true;
         }
-    }
-    public String inOrder(BST_Node<T> t) {
-        if (t == null) return "";
-        return inOrder(t.getLeftTree()) + t.getData().toString() + " " + inOrder(t.getRightTree());
-    }
-
-    public String preOrder(BST_Node<T> t) {
-        if (t == null) return "";
-        return t.getData().toString() + " " + preOrder(t.getLeftTree()) + preOrder(t.getRightTree());
-    }
-
-    public String postOrder(BST_Node<T> t) {
-        if (t == null) return "";
-        return postOrder(t.getLeftTree()) + postOrder(t.getRightTree()) + t.getData().toString() + " ";
     }
 }
