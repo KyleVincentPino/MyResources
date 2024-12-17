@@ -1,3 +1,5 @@
+package JobSeeking_DS_LE;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,55 +14,73 @@ public class JobSeekerManager {
         this.jobPosts = jobPosts;
     }
 
+    // Add a new job seeker to the system
     public void addJobSeeker(JobSeeker jobSeeker) {
         jobSeekers.add(jobSeeker);
-        System.out.println("Job seeker profile created: " + jobSeeker);
+        System.out.println("Job Seeker added: " + jobSeeker);
     }
 
-    public JobSeeker getJobSeekerById(String id) {
-        for (JobSeeker jobSeeker : jobSeekers) {
-            if (jobSeeker.getId().equals(id)) {
-                return jobSeeker;
-            }
-        }
-        return null;
+    // Remove a job seeker by ID
+    public boolean removeJobSeeker(String id) {
+        return jobSeekers.removeIf(seeker -> seeker.getId().equals(id));
     }
 
-    public void updateJobSeeker(String id, JobSeeker updatedJobSeeker) {
+    // Update job seeker details
+    public void updateJobSeeker(String id, JobSeeker updatedSeeker) {
         for (int i = 0; i < jobSeekers.size(); i++) {
             if (jobSeekers.get(i).getId().equals(id)) {
-                jobSeekers.set(i, updatedJobSeeker);
-                System.out.println("Job seeker updated: " + updatedJobSeeker);
+                jobSeekers.set(i, updatedSeeker);
+                System.out.println("Job Seeker updated: " + updatedSeeker);
                 return;
             }
         }
-        System.out.println("Job seeker not found.");
+        System.out.println("Job Seeker not found.");
     }
 
-    public void submitJobApplication(JobApplication application) {
-        jobApplications.add(application);
-        System.out.println("Application submitted: " + application);
+    // Job seeker applies for a job post
+    public void applyForJob(String jobSeekerId, String jobPostId, String resume, String coverLetter) {
+        JobSeeker jobSeeker = null;
+        for (JobSeeker seeker : jobSeekers) {
+            if (seeker.getId().equals(jobSeekerId)) {
+                jobSeeker = seeker;
+                break;
+            }
+        }
+        
+        if (jobSeeker != null) {
+            JobApplication application = new JobApplication(
+                    String.valueOf(jobApplications.size() + 1), 
+                    jobPostId, 
+                    jobSeekerId, 
+                    new java.util.Date(), 
+                    resume, 
+                    coverLetter, 
+                    "Pending");
+            jobApplications.add(application);
+            System.out.println("Job application submitted: " + application);
+        } else {
+            System.out.println("Job Seeker not found.");
+        }
     }
 
-    public List<JobApplication> getApplicationsByJobSeeker(String jobSeekerId) {
+    // Get job applications for a specific job post
+    public List<JobApplication> getApplicationsForJobPost(String jobPostId) {
         List<JobApplication> result = new ArrayList<>();
         for (JobApplication app : jobApplications) {
-            if (app.getJobSeekerId().equals(jobSeekerId)) {
+            if (app.getJobPostId().equals(jobPostId)) {
                 result.add(app);
             }
         }
         return result;
     }
 
-    public List<JobPost> searchJobs(String keyword) {
-        List<JobPost> results = new ArrayList<>();
-        for (JobPost post : jobPosts) {
-            if (post.getTitle().toLowerCase().contains(keyword.toLowerCase()) ||
-                post.getLocation().toLowerCase().contains(keyword.toLowerCase()) ||
-                post.getIndustryType().toLowerCase().contains(keyword.toLowerCase())) {
-                results.add(post);
-            }
-        }
-        return results;
+    // Get a list of all job seekers
+    public List<JobSeeker> getJobSeekers() {
+        return jobSeekers;
+    }
+
+    // Get a list of all job applications
+    public List<JobApplication> getJobApplications() {
+        return jobApplications;
     }
 }
