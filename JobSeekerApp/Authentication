@@ -1,0 +1,64 @@
+import java.util.HashMap;
+import java.util.Map;
+
+public class Authentication {
+    
+    private Map<String, String> jobSeekerCredentials;  // Maps JobSeeker's email to password
+    private Map<String, String> employerCredentials;   // Maps Employer's email to password
+    
+    // Constructor initializes the credential maps
+    public Authentication() {
+        jobSeekerCredentials = new HashMap<>();
+        employerCredentials = new HashMap<>();
+    }
+
+    // Register a Job Seeker
+    public boolean registerJobSeeker(String email, String password) {
+        if (jobSeekerCredentials.containsKey(email)) {
+            System.out.println("Job Seeker already registered with this email.");
+            return false;  // Email already registered
+        }
+        jobSeekerCredentials.put(email, password);
+        System.out.println("Job Seeker registered successfully.");
+        return true;
+    }
+
+    // Register an Employer
+    public boolean registerEmployer(String email, String password) {
+        if (employerCredentials.containsKey(email)) {
+            System.out.println("Employer already registered with this email.");
+            return false;  // Email already registered
+        }
+        employerCredentials.put(email, password);
+        System.out.println("Employer registered successfully.");
+        return true;
+    }
+
+    // Login for Job Seekers
+    public boolean loginJobSeeker(String email, String password) {
+        if (jobSeekerCredentials.containsKey(email) && jobSeekerCredentials.get(email).equals(password)) {
+            System.out.println("Job Seeker login successful.");
+            return true;  // Successful login
+        } else {
+            System.out.println("Invalid credentials for Job Seeker.");
+            return false;  // Invalid login
+        }
+    }
+
+    // Login for Employers
+    public boolean loginEmployer(String email, String password) {
+        if (employerCredentials.containsKey(email) && employerCredentials.get(email).equals(password)) {
+            System.out.println("Employer login successful.");
+            return true;  // Successful login
+        } else {
+            System.out.println("Invalid credentials for Employer.");
+            return false;  // Invalid login
+        }
+    }
+
+    // Additional method to show current credentials (just for demonstration)
+    public void showCredentials() {
+        System.out.println("Job Seekers: " + jobSeekerCredentials);
+        System.out.println("Employers: " + employerCredentials);
+    }
+}
