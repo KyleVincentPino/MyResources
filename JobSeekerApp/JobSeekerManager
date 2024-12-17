@@ -1,0 +1,66 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class JobSeekerManager {
+    private List<JobSeeker> jobSeekers;
+    private List<JobApplication> jobApplications;
+    private List<JobPost> jobPosts;
+
+    public JobSeekerManager(List<JobPost> jobPosts) {
+        this.jobSeekers = new ArrayList<>();
+        this.jobApplications = new ArrayList<>();
+        this.jobPosts = jobPosts;
+    }
+
+    public void addJobSeeker(JobSeeker jobSeeker) {
+        jobSeekers.add(jobSeeker);
+        System.out.println("Job seeker profile created: " + jobSeeker);
+    }
+
+    public JobSeeker getJobSeekerById(String id) {
+        for (JobSeeker jobSeeker : jobSeekers) {
+            if (jobSeeker.getId().equals(id)) {
+                return jobSeeker;
+            }
+        }
+        return null;
+    }
+
+    public void updateJobSeeker(String id, JobSeeker updatedJobSeeker) {
+        for (int i = 0; i < jobSeekers.size(); i++) {
+            if (jobSeekers.get(i).getId().equals(id)) {
+                jobSeekers.set(i, updatedJobSeeker);
+                System.out.println("Job seeker updated: " + updatedJobSeeker);
+                return;
+            }
+        }
+        System.out.println("Job seeker not found.");
+    }
+
+    public void submitJobApplication(JobApplication application) {
+        jobApplications.add(application);
+        System.out.println("Application submitted: " + application);
+    }
+
+    public List<JobApplication> getApplicationsByJobSeeker(String jobSeekerId) {
+        List<JobApplication> result = new ArrayList<>();
+        for (JobApplication app : jobApplications) {
+            if (app.getJobSeekerId().equals(jobSeekerId)) {
+                result.add(app);
+            }
+        }
+        return result;
+    }
+
+    public List<JobPost> searchJobs(String keyword) {
+        List<JobPost> results = new ArrayList<>();
+        for (JobPost post : jobPosts) {
+            if (post.getTitle().toLowerCase().contains(keyword.toLowerCase()) ||
+                post.getLocation().toLowerCase().contains(keyword.toLowerCase()) ||
+                post.getIndustryType().toLowerCase().contains(keyword.toLowerCase())) {
+                results.add(post);
+            }
+        }
+        return results;
+    }
+}
