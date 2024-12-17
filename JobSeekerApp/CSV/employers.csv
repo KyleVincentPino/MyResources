@@ -1,0 +1,16 @@
+id,companyName,email,contactNumber,industryType
+E001,TechCorp,hr@techcorp.com,09123456789,IT
+E002,HealthPlus,info@healthplus.com,09234567890,Healthcare
+E003,BuildIt,contact@buildit.com,09345678901,Construction
+E004,GreenGrocers,sales@greengrocers.com,09456789012,Retail
+E005,AutoDrive,admin@autodrive.com,09567890123,Automotive
+E006,FinTrust,hello@fintrust.com,09678901234,Finance
+E007,FoodiesHub,info@foodieshub.com,09789012345,Food & Beverage
+E008,EdTech Solutions,support@edtech.com,09890123456,Education
+E009,FashionWorld,careers@fashionworld.com,09901234567,Fashion
+E010,InnoSoft,contact@innosoft.com,09111222333,Software
+E011,SmartLogix,admin@smartlogix.com,09222333444,IT
+E012,HealthCarePro,hr@healthcarepro.com,09333444555,Healthcare
+E013,HomeBase,info@homebase.com,09444555666,Real Estate
+E014,QuickFix,services@quickfix.com,09555666777,Services
+E015,GreenEnergy,contact@greenenergy.com,09666777888,Energy
