@@ -1,0 +1,47 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class EmployerManager {
+    private List<JobPost> jobPosts;
+    private List<JobApplication> jobApplications;
+
+    public EmployerManager() {
+        this.jobPosts = new ArrayList<>();
+        this.jobApplications = new ArrayList<>();
+    }
+
+    public void addJobPost(JobPost jobPost) {
+        jobPosts.add(jobPost);
+        System.out.println("Job post added: " + jobPost);
+    }
+
+    public boolean removeJobPost(String id) {
+        return jobPosts.removeIf(post -> post.getId().equals(id));
+    }
+
+    public void updateJobPost(String id, JobPost updatedPost) {
+        for (int i = 0; i < jobPosts.size(); i++) {
+            if (jobPosts.get(i).getId().equals(id)) {
+                jobPosts.set(i, updatedPost);
+                System.out.println("Job post updated: " + updatedPost);
+                return;
+            }
+        }
+        System.out.println("Job post not found.");
+    }
+
+    public void addJobApplication(JobApplication application) {
+        jobApplications.add(application);
+        System.out.println("Application added: " + application);
+    }
+
+    public List<JobApplication> getApplicationsForJobPost(String jobPostId) {
+        List<JobApplication> result = new ArrayList<>();
+        for (JobApplication app : jobApplications) {
+            if (app.getJobPostId().equals(jobPostId)) {
+                result.add(app);
+            }
+        }
+        return result;
+    }
+}
