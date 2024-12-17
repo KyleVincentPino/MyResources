@@ -1,0 +1,88 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class Recommendation {
+    private List<JobSeeker> jobSeekers;           // List of JobSeekers
+    private List<JobPost> jobPosts;               // List of JobPosts
+    private List<Employer> employers;             // List of Employers
+    private List<JobApplication> jobApplications; // List of JobApplications
+
+    // Constructor
+    public Recommendation(List<JobSeeker> jobSeekers, List<JobPost> jobPosts, 
+                          List<Employer> employers, List<JobApplication> jobApplications) {
+        this.jobSeekers = jobSeekers != null ? jobSeekers : new ArrayList<>();
+        this.jobPosts = jobPosts != null ? jobPosts : new ArrayList<>();
+        this.employers = employers != null ? employers : new ArrayList<>();
+        this.jobApplications = jobApplications != null ? jobApplications : new ArrayList<>();
+    }
+
+    // Generate job recommendations for a specific job seeker
+    public List<JobPost> recommendJobsForJobSeeker(String jobSeekerId) {
+        JobSeeker jobSeeker = jobSeekers.stream()
+                                        .filter(js -> js.getId().equals(jobSeekerId))
+                                        .findFirst()
+                                        .orElse(null);
+
+        if (jobSeeker == null) {
+            throw new IllegalArgumentException("JobSeeker with ID " + jobSeekerId + " not found.");
+        }
+
+        // Filter job posts based on skills and industry type
+        return jobPosts.stream()
+                .filter(jobPost -> matchSkills(jobSeeker.getSkills(), jobPost.getRequirements()))
+                .filter(jobPost -> matchIndustry(jobSeeker, jobPost))
+                .collect(Collectors.toList());
+    }
+
+    // Helper method to check if job seeker's skills match job post requirements
+    private boolean matchSkills(List<String> jobSeekerSkills, String jobPostRequirements) {
+        for (String skill : jobSeekerSkills) {
+            if (jobPostRequirements.toLowerCase().contains(skill.toLowerCase())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Helper method to check if industry type matches
+    private boolean matchIndustry(JobSeeker jobSeeker, JobPost jobPost) {
+        return employers.stream()
+                        .anyMatch(employer -> employer.getCompanyName().equals(jobPost.getCompanyName()) &&
+                                               employer.getIndustryType().equalsIgnoreCase(jobPost.getIndustryType()));
+    }
+
+    // Recommend job seekers for an employer based on job post requirements
+    public List<JobSeeker> recommendJobSeekersForEmployer(String employerId) {
+        Employer employer = employers.stream()
+                                     .filter(emp -> emp.getId().equals(employerId))
+                                     .findFirst()
+                                     .orElse(null);
+
+        if (employer == null) {
+            throw new IllegalArgumentException("Employer with ID " + employerId + " not found.");
+        }
+
+        // Filter job seekers based on the employer's industry type and job posts
+        return jobSeekers.stream()
+                .filter(jobSeeker -> jobPosts.stream()
+                                             .anyMatch(jobPost -> jobPost.getCompanyName().equals(employer.getCompanyName()) &&
+                                                                  matchSkills(jobSeeker.getSkills(), jobPost.getRequirements())))
+                .collect(Collectors.toList());
+    }
+
+    // Recommend job posts for a specific industry type
+    public List<JobPost> recommendJobsByIndustry(String industryType) {
+        return jobPosts.stream()
+                .filter(jobPost -> jobPost.getIndustryType().equalsIgnoreCase(industryType))
+                .collect(Collectors.toList());
+    }
+
+    // Recommend job seekers based on urgency and priority
+    public List<JobSeeker> recommendHighPriorityJobSeekers() {
+        return jobSeekers.stream()
+                .sorted((js1, js2) -> Integer.compare(js2.calculatePriority(), js1.calculatePriority()))
+                .limit(5) // Top 5 high-priority job seekers
+                .collect(Collectors.toList());
+    }
+}
