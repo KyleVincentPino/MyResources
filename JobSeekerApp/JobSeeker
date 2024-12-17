@@ -17,7 +17,6 @@ public class JobSeeker implements Comparable<JobSeeker> {
         this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
-        // Initialize skills list to avoid null values
         this.skills = skills != null ? skills : new ArrayList<>();
         this.experience = experience;
         this.financialNeed = financialNeed;
