@@ -1,0 +1,45 @@
+import java.io.*;
+import java.util.*;
+
+public class JobSeekerDataHandler {
+    private static final String FILE_NAME = "jobseekers.csv";
+
+    // Write JobSeeker data to file
+    public static void writeJobSeekers(List<JobSeeker> jobSeekers) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_NAME))) {
+            for (JobSeeker js : jobSeekers) {
+                writer.write(String.join(",",
+                        js.getId(),
+                        js.getName(),
+                        js.getEmail(),
+                        js.getPhoneNumber(),
+                        String.join(";", js.getSkills()), // skills as a semicolon-separated list
+                        String.valueOf(js.getExperience()),
+                        js.getFinancialNeed(),
+                        String.valueOf(js.getUrgency())));
+                writer.newLine();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    // Read JobSeeker data from file
+    public static List<JobSeeker> readJobSeekers() {
+        List<JobSeeker> jobSeekers = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_NAME))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] data = line.split(",");
+                List<String> skills = Arrays.asList(data[4].split(";")); // split skills by semicolon
+                jobSeekers.add(new JobSeeker(
+                        data[0], data[1], data[2], data[3],
+                        skills, Integer.parseInt(data[5]), data[6],
+                        Integer.parseInt(data[7])));
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return jobSeekers;
+    }
+}
