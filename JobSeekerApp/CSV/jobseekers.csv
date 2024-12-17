@@ -1,0 +1,16 @@
+id,name,email,phoneNumber,skills,experience,financialNeed,urgency
+JS001,Kyle Pino,kyle.pino@gmail.com,09111111111,"Java, Python, SQL",3,High,3
+JS002,Patrick Hempeso,pat.hempeso@gmail.com,09222222222,"HTML, CSS, JavaScript",2,Medium,2
+JS003,Elle Pelpinosas,elle.pelpinosas@gmail.com,09333333333,"C++, Linux, Bash",4,High,3
+JS004,Keith Tapales,keith.tapales@gmail.com,09444444444,"Excel, PowerPoint",1,Low,1
+JS005,Peter White,peter.white@gmail.com,09555555555,"Machine Learning, Python",5,High,3
+JS006,Emily Black,emily.black@gmail.com,09666666666,"Java, Spring Boot",2,Medium,2
+JS007,Tom Clark,tom.clark@gmail.com,09777777777,"React, Node.js",3,Medium,2
+JS008,Susan Hill,susan.hill@gmail.com,09888888888,"AWS, Azure",4,High,3
+JS009,James King,james.king@gmail.com,09999999999,"SQL, Tableau",1,Low,1
+JS010,Mary Adams,mary.adams@gmail.com,09101010101,"Kotlin, Flutter",2,Medium,2
+JS011,Chris White,chris.white@gmail.com,09202020202,"Data Analysis, Python",3,High,3
+JS012,Anna Hall,anna.hall@gmail.com,09303030303,"Django, Python",5,High,3
+JS013,Brian Scott,brian.scott@gmail.com,09404040404,"Marketing, SEO",2,Medium,2
+JS014,Lisa Reed,lisa.reed@gmail.com,09505050505,"Project Management",4,High,3
+JS015,Kevin Turner,kevin.turner@gmail.com,09606060606,"Graphic Design, Photoshop",1,Low,1
