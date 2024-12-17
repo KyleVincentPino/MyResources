@@ -1,0 +1,16 @@
+id,title,companyName,jobDescription,requirements,postDate,location,industryType
+JP001,Software Engineer,TechCorp,"Develop and maintain applications","Java, Spring Boot",2024-06-01,Makati,IT
+JP002,Data Analyst,HealthPlus,"Analyze healthcare data","SQL, Tableau, Python",2024-06-02,Quezon City,Healthcare
+JP003,Civil Engineer,BuildIt,"Manage construction projects","AutoCAD, Structural Analysis",2024-06-03,Cebu,Construction
+JP004,Store Manager,GreenGrocers,"Manage store operations","Leadership, Inventory Management",2024-06-04,Davao,Retail
+JP005,Mechanic,AutoDrive,"Maintain vehicles","Mechanical skills",2024-06-05,Manila,Automotive
+JP006,Financial Analyst,FinTrust,"Prepare financial reports","Excel, Accounting",2024-06-06,Taguig,Finance
+JP007,Cook,FoodiesHub,"Prepare meals for customers","Cooking skills",2024-06-07,Cebu,Food & Beverage
+JP008,Teacher,EdTech Solutions,"Teach high school subjects","Teaching certification",2024-06-08,Iloilo,Education
+JP009,Fashion Designer,FashionWorld,"Design new clothing lines","Creativity, CAD",2024-06-09,Manila,Fashion
+JP010,Web Developer,InnoSoft,"Develop websites","HTML, CSS, JavaScript",2024-06-10,Taguig,Software
+JP011,System Admin,SmartLogix,"Manage IT infrastructure","Linux, AWS",2024-06-11,Cebu,IT
+JP012,Nurse,HealthCarePro,"Provide patient care","Nursing license",2024-06-12,Davao,Healthcare
+JP013,Real Estate Agent,HomeBase,"Sell residential properties","Sales experience",2024-06-13,Makati,Real Estate
+JP014,Plumber,QuickFix,"Install and repair plumbing","Plumbing skills",2024-06-14,Bacolod,Services
+JP015,Electrician,GreenEnergy,"Install electrical systems","Wiring, Safety protocols",2024-06-15,Quezon City,Energy
