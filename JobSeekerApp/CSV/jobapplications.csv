@@ -1,0 +1,16 @@
+id,jobPostId,jobSeekerId,applicationDate,resume,coverLetter,status
+JA001,JP001,JS001,2024-06-02,resume1.pdf,"Excited to join TechCorp",Pending
+JA002,JP002,JS002,2024-06-03,resume2.pdf,"Interested in data analysis role",Pending
+JA003,JP003,JS003,2024-06-04,resume3.pdf,"Strong background in engineering",Pending
+JA004,JP004,JS004,2024-06-05,resume4.pdf,"Experience in store operations",Rejected
+JA005,JP005,JS005,2024-06-06,resume5.pdf,"Skilled in vehicle maintenance",Accepted
+JA006,JP006,JS006,2024-06-07,resume6.pdf,"Finance and analysis expertise",Pending
+JA007,JP007,JS007,2024-06-08,resume7.pdf,"Passionate about food service",Pending
+JA008,JP008,JS008,2024-06-09,resume8.pdf,"Certified teacher with experience",Rejected
+JA009,JP009,JS009,2024-06-10,resume9.pdf,"Creative fashion designer",Pending
+JA010,JP010,JS010,2024-06-11,resume10.pdf,"Web development projects attached",Accepted
+JA011,JP011,JS011,2024-06-12,resume11.pdf,"Extensive IT systems knowledge",Pending
+JA012,JP012,JS012,2024-06-13,resume12.pdf,"Licensed nurse with 5 years' experience",Rejected
+JA013,JP013,JS013,2024-06-14,resume13.pdf,"Sales professional",Accepted
+JA014,JP014,JS014,2024-06-15,resume14.pdf,"Specialized in plumbing repairs",Pending
+JA015,JP015,JS015,2024-06-16,resume15.pdf,"Certified electrician",Accepted
