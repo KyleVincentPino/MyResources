@@ -1,0 +1,93 @@
+import java.util.Date;
+
+public class JobApplication {
+    private String id;                   // Unique Job Application ID
+    private String jobPostId;            // ID of the JobPost being applied for
+    private String jobSeekerId;          // ID of the JobSeeker applying for the job
+    private Date applicationDate;        // Date when the application was submitted
+    private String resume;               // Resume link or description
+    private String coverLetter;          // Cover letter content
+    private String status;               // Application status (e.g., "Pending", "Accepted", "Rejected")
+
+    // Constructor
+    public JobApplication(String id, String jobPostId, String jobSeekerId, Date applicationDate, 
+                          String resume, String coverLetter, String status) {
+        this.id = id;
+        this.jobPostId = jobPostId;
+        this.jobSeekerId = jobSeekerId;
+        this.applicationDate = applicationDate;
+        this.resume = resume;
+        this.coverLetter = coverLetter;
+        this.status = status;
+    }
+
+    // Getters and Setters
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getJobPostId() {
+        return jobPostId;
+    }
+
+    public void setJobPostId(String jobPostId) {
+        this.jobPostId = jobPostId;
+    }
+
+    public String getJobSeekerId() {
+        return jobSeekerId;
+    }
+
+    public void setJobSeekerId(String jobSeekerId) {
+        this.jobSeekerId = jobSeekerId;
+    }
+
+    public Date getApplicationDate() {
+        return applicationDate;
+    }
+
+    public void setApplicationDate(Date applicationDate) {
+        this.applicationDate = applicationDate;
+    }
+
+    public String getResume() {
+        return resume;
+    }
+
+    public void setResume(String resume) {
+        this.resume = resume;
+    }
+
+    public String getCoverLetter() {
+        return coverLetter;
+    }
+
+    public void setCoverLetter(String coverLetter) {
+        this.coverLetter = coverLetter;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "JobApplication{" +
+                "id='" + id + '\'' +
+                ", jobPostId='" + jobPostId + '\'' +
+                ", jobSeekerId='" + jobSeekerId + '\'' +
+                ", applicationDate=" + applicationDate +
+                ", resume='" + resume + '\'' +
+                ", coverLetter='" + coverLetter + '\'' +
+                ", status='" + status + '\'' +
+                '}';
+    }
+}
