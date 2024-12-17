@@ -1,0 +1,39 @@
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+
+public class EmployerDataHandler {
+    private static final String FILE_NAME = "employers.csv";
+
+    // Write Employer data to file
+    public static void writeEmployers(List<Employer> employers) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_NAME))) {
+            for (Employer e : employers) {
+                writer.write(String.join(",",
+                        e.getId(),
+                        e.getCompanyName(),
+                        e.getEmail(),
+                        e.getContactNumber(),
+                        e.getIndustryType()));
+                writer.newLine();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    // Read Employer data from file
+    public static List<Employer> readEmployers() {
+        List<Employer> employers = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_NAME))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] data = line.split(",");
+                employers.add(new Employer(data[0], data[1], data[2], data[3], data[4]));
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return employers;
+    }
+}
