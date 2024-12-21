@@ -1,0 +1,34 @@
+import java.io.*;
+
+public class BackupAndSave {
+    // Backup a given file
+    public static void backupFile(String originalFileName, String backupFileName) {
+        try (BufferedInputStream input = new BufferedInputStream(new FileInputStream(originalFileName));
+             BufferedOutputStream output = new BufferedOutputStream(new FileOutputStream(backupFileName))) {
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = input.read(buffer)) > 0) {
+                output.write(buffer, 0, bytesRead);
+            }
+            Notification.notifySuccess("Backup", originalFileName);
+        } catch (IOException e) {
+            Notification.notifyError("Backup", originalFileName, e);
+        }
+    }
+
+    // Restore a file from backup
+    public static void restoreFile(String backupFileName, String originalFileName) {
+        try (BufferedInputStream input = new BufferedInputStream(new FileInputStream(backupFileName));
+             BufferedOutputStream output = new BufferedOutputStream(new FileOutputStream(originalFileName))) {
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = input.read(buffer)) > 0) {
+                output.write(buffer, 0, bytesRead);
+            }
+            Notification.notifySuccess("Restore", originalFileName);
+        } catch (IOException e) {
+            Notification.notifyError("Restore", originalFileName, e);
+        }
+    }
+}
+
