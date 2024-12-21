@@ -1,0 +1,36 @@
+import java.util.regex.*;
+
+public class InputValidation {
+    // Validate employer data
+    public static boolean validateEmployerData(String id, String companyName, String email, String contactNumber, String industryType) {
+        return isValidNumeric(id) && isValidText(companyName) && isValidEmail(email) && isValidPhone(contactNumber) && isValidText(industryType);
+    }
+
+    // Validate job application data
+    public static boolean validateJobApplicationData(String id, String jobPostId, String jobSeekerId, String resume, String coverLetter) {
+        return isValidNumeric(id) && isValidNumeric(jobPostId) && isValidNumeric(jobSeekerId) && !resume.isEmpty() && !coverLetter.isEmpty();
+    }
+
+    // Validate job seeker data
+    public static boolean validateJobSeekerData(String id, String name, String email, String phoneNumber, String experience) {
+        return isValidNumeric(id) && isValidText(name) && isValidEmail(email) && isValidPhone(phoneNumber) && isValidNumeric(experience);
+    }
+
+    // Helper methods
+    private static boolean isValidNumeric(String input) {
+        return input.matches("\\d+");
+    }
+
+    private static boolean isValidText(String input) {
+        return input.matches("[a-zA-Z\\s]+");
+    }
+
+    private static boolean isValidEmail(String email) {
+        return Pattern.compile("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$").matcher(email).matches();
+    }
+
+    private static boolean isValidPhone(String phone) {
+        return phone.matches("\\d{10}");
+    }
+}
+
