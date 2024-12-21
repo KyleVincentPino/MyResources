@@ -1,0 +1,14 @@
+public class Notification {
+    // Display a success notification
+    public static void notifySuccess(String operation, String dataType) {
+        System.out.println("SUCCESS: " + operation + " operation for " + dataType + " completed successfully.");
+    }
+
+    // Display an error notification
+    public static void notifyError(String operation, String dataType, Exception e) {
+        System.err.println("ERROR: " + operation + " operation for " + dataType + " failed.");
+        e.printStackTrace();
+    }
+}
+
+
