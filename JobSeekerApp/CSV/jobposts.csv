@@ -1,4 +1,3 @@
-id,title,companyName,jobDescription,requirements,postDate,location,industryType
 JP001,Software Engineer,TechCorp,"Develop and maintain applications","Java, Spring Boot",2024-06-01,Makati,IT
 JP002,Data Analyst,HealthPlus,"Analyze healthcare data","SQL, Tableau, Python",2024-06-02,Quezon City,Healthcare
 JP003,Civil Engineer,BuildIt,"Manage construction projects","AutoCAD, Structural Analysis",2024-06-03,Cebu,Construction
