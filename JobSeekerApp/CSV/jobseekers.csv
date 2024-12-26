@@ -1,4 +1,3 @@
-id,name,email,phoneNumber,skills,experience,financialNeed,urgency
 JS001,Kyle Pino,kyle.pino@gmail.com,09111111111,"Java, Python, SQL",3,High,3
 JS002,Patrick Hempeso,pat.hempeso@gmail.com,09222222222,"HTML, CSS, JavaScript",2,Medium,2
 JS003,Elle Pelpinosas,elle.pelpinosas@gmail.com,09333333333,"C++, Linux, Bash",4,High,3
