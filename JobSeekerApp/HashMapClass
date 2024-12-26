@@ -1,138 +1,175 @@
 import java.util.Map;
 import java.util.HashMap; 
+import java.util.List;
+import java.util.ArrayList;
 
 public class HashMapClass {
 
-    private Map<String, Employer> employerMap;  // HashMap to store Employer objects
-    private Map<String, JobSeeker> jobSeekerMap;  // HashMap to store JobSeeker objects
+   private Map<String, Employer> employerMap;  // HashMap to store Employer objects
+   private Map<String, JobSeeker> jobSeekerMap;  // HashMap to store JobSeeker objects
+   private JobSeekerDataHandler jsHandler = new JobSeekerDataHandler();
+   private EmployerDataHandler eHandler = new EmployerDataHandler();
+   
+   // Constructor
+   public HashMapClass() {
+      this.employerMap = new HashMap<>();
+      this.jobSeekerMap = new HashMap<>();
+      fillJobSeekerMap();
+      fillEmployerMap();
+   }
+   
+   public void fillJobSeekerMap(){
+      List<JobSeeker> jsList = jsHandler.readJobSeekers();
+      for (JobSeeker jobSeeker : jsList){
+         jobSeekerMap.put(jobSeeker.getId(), jobSeeker);
+      }
+   }
+   
+   public void fillEmployerMap(){
+      List<Employer> eList = eHandler.readEmployers();
+      for (Employer employer : eList){
+         employerMap.put(employer.getId(), employer);
+      }
+   }
+   
+   public void updateJobSeekerMap(){
+      List<JobSeeker> updateJS = new ArrayList<>();
+      for (String key : jobSeekerMap.keySet()){
+         updateJS.add(jobSeekerMap.get(key));
+      }
+      jsHandler.writeJobSeekers(updateJS);
+      
+   }
+   
+   public void updateEmployerMap(){
+      List<Employer> updateE = new ArrayList<>();
+      for (String key : employerMap.keySet()){
+         updateE.add(employerMap.get(key));
+      }
+      eHandler.writeEmployers(updateE);
+   }
+   
+   // Add a new Employer to the HashMap
+   public void addEmployer(Employer employer) {
+      if (employer != null && !employerMap.containsKey(employer.getId())) {
+         employerMap.put(employer.getId(), employer);
+         System.out.println("Employer added: " + employer);
+      } else {
+         System.out.println("Employer with this ID already exists or invalid input.");
+      }
+   }
 
-    // Constructor
-    public HashMapClass() {
-        this.employerMap = new HashMap<>();
-        this.jobSeekerMap = new HashMap<>();
-    }
+   // Remove an Employer by ID
+   public void removeEmployerById(String id) {
+      if (employerMap.containsKey(id)) {
+         Employer removedEmployer = employerMap.remove(id);
+         System.out.println("Employer removed: " + removedEmployer);
+      } else {
+         System.out.println("No Employer found with the ID: " + id);
+      }
+   }
 
-    // Add a new Employer to the HashMap
-    public void addEmployer(Employer employer) {
-        if (employer != null && !employerMap.containsKey(employer.getId())) {
-            employerMap.put(employer.getId(), employer);
-            System.out.println("Employer added: " + employer);
-        } else {
-            System.out.println("Employer with this ID already exists or invalid input.");
-        }
-    }
+   // Get an Employer by ID
+   public Employer getEmployerById(String id) {
+      Employer employer = employerMap.get(id);
+      if (employer != null) {
+         return employer;
+      } else {
+         System.out.println("No Employer found with the ID: " + id);
+         return null;
+      }
+   }
 
-    // Remove an Employer by ID
-    public void removeEmployerById(String id) {
-        if (employerMap.containsKey(id)) {
-            Employer removedEmployer = employerMap.remove(id);
-            System.out.println("Employer removed: " + removedEmployer);
-        } else {
-            System.out.println("No Employer found with the ID: " + id);
-        }
-    }
+   // Update an Employer's information by ID
+   public void updateEmployer(String id, String companyName, String email, String contactNumber, String industryType) {
+      Employer employer = employerMap.get(id);
+      if (employer != null) {
+         employer.setCompanyName(companyName);
+         employer.setEmail(email);
+         employer.setContactNumber(contactNumber);
+         employer.setIndustryType(industryType);
+         System.out.println("Employer updated: " + employer);
+      } else {
+         System.out.println("No Employer found with the ID: " + id);
+      }
+   }
 
-    // Get an Employer by ID
-    public Employer getEmployerById(String id) {
-        Employer employer = employerMap.get(id);
-        if (employer != null) {
-            return employer;
-        } else {
-            System.out.println("No Employer found with the ID: " + id);
-            return null;
-        }
-    }
+   // Add a new JobSeeker to the HashMap
+   public void addJobSeeker(JobSeeker jobSeeker) {
+      if (jobSeeker != null && !jobSeekerMap.containsKey(jobSeeker.getId())) {
+         jobSeekerMap.put(jobSeeker.getId(), jobSeeker);
+         System.out.println("Job Seeker added: " + jobSeeker);
+      } else {
+         System.out.println("Job Seeker with this ID already exists or invalid input.");
+      }
+   }
 
-    // Update an Employer's information by ID
-    public void updateEmployer(String id, String companyName, String email, String contactNumber, String industryType) {
-        Employer employer = employerMap.get(id);
-        if (employer != null) {
-            employer.setCompanyName(companyName);
-            employer.setEmail(email);
-            employer.setContactNumber(contactNumber);
-            employer.setIndustryType(industryType);
-            System.out.println("Employer updated: " + employer);
-        } else {
-            System.out.println("No Employer found with the ID: " + id);
-        }
-    }
+   // Remove a JobSeeker by ID
+   public void removeJobSeekerById(String id) {
+      if (jobSeekerMap.containsKey(id)) {
+         JobSeeker removedJobSeeker = jobSeekerMap.remove(id);
+         System.out.println("Job Seeker removed: " + removedJobSeeker);
+      } else {
+         System.out.println("No Job Seeker found with the ID: " + id);
+      }
+   }
 
-    // Add a new JobSeeker to the HashMap
-    public void addJobSeeker(JobSeeker jobSeeker) {
-        if (jobSeeker != null && !jobSeekerMap.containsKey(jobSeeker.getId())) {
-            jobSeekerMap.put(jobSeeker.getId(), jobSeeker);
-            System.out.println("Job Seeker added: " + jobSeeker);
-        } else {
-            System.out.println("Job Seeker with this ID already exists or invalid input.");
-        }
-    }
+   // Get a JobSeeker by ID
+   public JobSeeker getJobSeekerById(String id) {
+      JobSeeker jobSeeker = jobSeekerMap.get(id);
+      if (jobSeeker != null) {
+         return jobSeeker;
+      } else {
+         System.out.println("No Job Seeker found with the ID: " + id);
+         return null;
+      }
+   }
 
-    // Remove a JobSeeker by ID
-    public void removeJobSeekerById(String id) {
-        if (jobSeekerMap.containsKey(id)) {
-            JobSeeker removedJobSeeker = jobSeekerMap.remove(id);
-            System.out.println("Job Seeker removed: " + removedJobSeeker);
-        } else {
-            System.out.println("No Job Seeker found with the ID: " + id);
-        }
-    }
+   // Update a JobSeeker's information by ID
+   public void updateJobSeeker(String id, String name, String email, String phoneNumber, 
+                                java.util.List<String> skills, int experience, String financialNeed, int urgency) {
+      JobSeeker jobSeeker = jobSeekerMap.get(id);
+      if (jobSeeker != null) {
+         jobSeeker.setName(name);
+         jobSeeker.setEmail(email);
+         jobSeeker.setPhoneNumber(phoneNumber);
+         jobSeeker.setSkills(skills);
+         jobSeeker.setExperience(experience);
+         jobSeeker.setFinancialNeed(financialNeed);
+         jobSeeker.setUrgency(urgency);
+         System.out.println("Job Seeker updated: " + jobSeeker);
+      } else {
+         System.out.println("No Job Seeker found with the ID: " + id);
+      }
+   }
 
-    // Get a JobSeeker by ID
-    public JobSeeker getJobSeekerById(String id) {
-        JobSeeker jobSeeker = jobSeekerMap.get(id);
-        if (jobSeeker != null) {
-            return jobSeeker;
-        } else {
-            System.out.println("No Job Seeker found with the ID: " + id);
-            return null;
-        }
-    }
+   // Get all Employers in the HashMap
+   public void displayAllEmployers() {
+      if (employerMap.isEmpty()) {
+         System.out.println("No Employers available.");
+      } else {
+         System.out.println("List of Employers:");
+         employerMap.values().forEach(System.out::println);
+      }
+   }
 
-    // Update a JobSeeker's information by ID
-    public void updateJobSeeker(String id, String name, String email, String phoneNumber, 
-                                 java.util.List<String> skills, int experience, String financialNeed, int urgency) {
-        JobSeeker jobSeeker = jobSeekerMap.get(id);
-        if (jobSeeker != null) {
-            jobSeeker.setName(name);
-            jobSeeker.setEmail(email);
-            jobSeeker.setPhoneNumber(phoneNumber);
-            jobSeeker.setSkills(skills);
-            jobSeeker.setExperience(experience);
-            jobSeeker.setFinancialNeed(financialNeed);
-            jobSeeker.setUrgency(urgency);
-            System.out.println("Job Seeker updated: " + jobSeeker);
-        } else {
-            System.out.println("No Job Seeker found with the ID: " + id);
-        }
-    }
+   // Get all JobSeekers in the HashMap
+   public void displayAllJobSeekers() {
+      if (jobSeekerMap.isEmpty()) {
+         System.out.println("No Job Seekers available.");
+      } else {
+         System.out.println("List of Job Seekers:");
+         jobSeekerMap.values().forEach(System.out::println);
+      }
+   }
 
-    // Get all Employers in the HashMap
-    public void displayAllEmployers() {
-        if (employerMap.isEmpty()) {
-            System.out.println("No Employers available.");
-        } else {
-            System.out.println("List of Employers:");
-            employerMap.values().forEach(System.out::println);
-        }
-    }
+   // Get total number of Employers
+   public int getTotalEmployers() {
+      return employerMap.size();
+   }
 
-    // Get all JobSeekers in the HashMap
-    public void displayAllJobSeekers() {
-        if (jobSeekerMap.isEmpty()) {
-            System.out.println("No Job Seekers available.");
-        } else {
-            System.out.println("List of Job Seekers:");
-            jobSeekerMap.values().forEach(System.out::println);
-        }
-    }
-
-    // Get total number of Employers
-    public int getTotalEmployers() {
-        return employerMap.size();
-    }
-
-    // Get total number of Job Seekers
-    public int getTotalJobSeekers() {
-        return jobSeekerMap.size();
-    }
+   // Get total number of Job Seekers
+   public int getTotalJobSeekers() {
+      return jobSeekerMap.size();
+   }
 }
