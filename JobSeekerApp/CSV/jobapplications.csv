@@ -1,4 +1,3 @@
-id,jobPostId,jobSeekerId,applicationDate,resume,coverLetter,status
 JA001,JP001,JS001,2024-06-02,resume1.pdf,"Excited to join TechCorp",Pending
 JA002,JP002,JS002,2024-06-03,resume2.pdf,"Interested in data analysis role",Pending
 JA003,JP003,JS003,2024-06-04,resume3.pdf,"Strong background in engineering",Pending
