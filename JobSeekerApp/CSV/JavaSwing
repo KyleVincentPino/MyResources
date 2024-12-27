@@ -1,0 +1,391 @@
+package JobSeeking_DS_LE;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.Date;
+// Remove the ambiguous List import and explicitly import java.util.List
+import java.util.List;
+import java.text.SimpleDateFormat;
+import javax.swing.table.DefaultTableModel;
+
+public class JavaSwing extends JFrame {
+    private HashMapClass hashMapClass;
+    private JobSeekerManager jobSeekerManager;
+    private EmployerManager employerManager;
+    private Authentication authentication;
+    private BST bst;
+    private Recommendation recommendation;
+    
+    // UI Components
+    private JTabbedPane tabbedPane;
+    private JPanel jobSeekerPanel;
+    private JPanel employerPanel;
+    private JPanel jobPostPanel;
+    private JPanel applicationPanel;
+    
+    public JavaSwing() {
+        // Initialize all manager classes
+        hashMapClass = new HashMapClass();
+        java.util.List<JobPost> jobPosts = new ArrayList<>();  // Explicitly specify java.util.List
+        jobSeekerManager = new JobSeekerManager(jobPosts);
+        employerManager = new EmployerManager();
+        authentication = new Authentication();
+        bst = new BST();
+        recommendation = new Recommendation(new ArrayList<>(), jobPosts, new ArrayList<>(), new ArrayList<>());
+        
+        // Setup the main frame
+        setTitle("Job Management System");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(800, 600);
+        setLocationRelativeTo(null);
+        
+        // Initialize UI components
+        initializeUI();
+    }
+    
+    private void initializeUI() {
+        // Create main tabbed pane
+        tabbedPane = new JTabbedPane();
+        
+        // Initialize panels
+        createJobSeekerPanel();
+        createEmployerPanel();
+        createJobPostPanel();
+        createApplicationPanel();
+        
+        // Add panels to tabbed pane
+        tabbedPane.addTab("Job Seekers", jobSeekerPanel);
+        tabbedPane.addTab("Employers", employerPanel);
+        tabbedPane.addTab("Job Posts", jobPostPanel);
+        tabbedPane.addTab("Applications", applicationPanel);
+        
+        // Add tabbed pane to frame
+        add(tabbedPane);
+        
+        // Add menu bar
+        createMenuBar();
+    }
+    
+    private void createJobSeekerPanel() {
+        jobSeekerPanel = new JPanel(new BorderLayout());
+        
+        // Create form panel
+        JPanel formPanel = new JPanel(new GridLayout(0, 2, 5, 5));
+        formPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        
+        // Add form components
+        formPanel.add(new JLabel("ID:"));
+        JTextField idField = new JTextField();
+        formPanel.add(idField);
+        
+        formPanel.add(new JLabel("Name:"));
+        JTextField nameField = new JTextField();
+        formPanel.add(nameField);
+        
+        formPanel.add(new JLabel("Email:"));
+        JTextField emailField = new JTextField();
+        formPanel.add(emailField);
+        
+        formPanel.add(new JLabel("Phone:"));
+        JTextField phoneField = new JTextField();
+        formPanel.add(phoneField);
+        
+        // Buttons panel
+        JPanel buttonPanel = new JPanel(new FlowLayout());
+        JButton addButton = new JButton("Add Job Seeker");
+        JButton updateButton = new JButton("Update");
+        JButton deleteButton = new JButton("Delete");
+        
+        buttonPanel.add(addButton);
+        buttonPanel.add(updateButton);
+        buttonPanel.add(deleteButton);
+        
+        // Add action listeners
+        addButton.addActionListener(e -> {
+            JobSeeker jobSeeker = new JobSeeker(
+                idField.getText(),
+                nameField.getText(),
+                emailField.getText(),
+                phoneField.getText(),
+                new ArrayList<>(),
+                1,
+                "Medium",
+                1
+            );
+            hashMapClass.addJobSeeker(jobSeeker);
+            hashMapClass.updateJobSeekerMap();
+            clearFields(idField, nameField, emailField, phoneField);
+        });
+        
+        
+        // Add panels to main panel
+        jobSeekerPanel.add(formPanel, BorderLayout.NORTH);
+        jobSeekerPanel.add(buttonPanel, BorderLayout.SOUTH);
+    }
+    
+    private void createEmployerPanel() {
+        employerPanel = new JPanel(new BorderLayout());
+        
+        // Create form panel
+        JPanel formPanel = new JPanel(new GridLayout(0, 2, 5, 5));
+        formPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        
+        // Add form components
+        formPanel.add(new JLabel("ID:"));
+        JTextField idField = new JTextField();
+        formPanel.add(idField);
+        
+        formPanel.add(new JLabel("Company Name:"));
+        JTextField companyField = new JTextField();
+        formPanel.add(companyField);
+        
+        formPanel.add(new JLabel("Email:"));
+        JTextField emailField = new JTextField();
+        formPanel.add(emailField);
+        
+        formPanel.add(new JLabel("Contact Number:"));
+        JTextField phoneField = new JTextField();
+        formPanel.add(phoneField);
+        
+        formPanel.add(new JLabel("Industry Type:"));
+        JTextField industryField = new JTextField();
+        formPanel.add(industryField);
+        
+        // Buttons panel
+        JPanel buttonPanel = new JPanel(new FlowLayout());
+        JButton addButton = new JButton("Add Employer");
+        JButton updateButton = new JButton("Update");
+        JButton deleteButton = new JButton("Delete");
+        
+        buttonPanel.add(addButton);
+        buttonPanel.add(updateButton);
+        buttonPanel.add(deleteButton);
+        
+        // Add action listeners
+        addButton.addActionListener(e -> {
+            Employer employer = new Employer(
+                idField.getText(),
+                companyField.getText(),
+                emailField.getText(),
+                phoneField.getText(),
+                industryField.getText()
+            );
+            hashMapClass.addEmployer(employer);
+            hashMapClass.updateEmployerMap();
+            clearFields(idField, companyField, emailField, phoneField, industryField);
+        });
+        
+        // Add panels to main panel
+        employerPanel.add(formPanel, BorderLayout.NORTH);
+        employerPanel.add(buttonPanel, BorderLayout.SOUTH);
+    }
+    
+    private void createJobPostPanel() {
+        jobPostPanel = new JPanel(new BorderLayout());
+
+        // Create form panel
+        JPanel formPanel = new JPanel(new GridLayout(0, 2, 5, 5));
+        formPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        // Add form components
+        formPanel.add(new JLabel("ID:"));
+        JTextField idField = new JTextField();
+        formPanel.add(idField);
+
+        formPanel.add(new JLabel("Job Title:"));
+        JTextField titleField = new JTextField();
+        formPanel.add(titleField);
+
+        formPanel.add(new JLabel("Company Name:"));
+        JTextField companyField = new JTextField();
+        formPanel.add(companyField);
+
+        formPanel.add(new JLabel("Job Description:"));
+        JTextField descriptionField = new JTextField();
+        formPanel.add(descriptionField);
+
+        formPanel.add(new JLabel("Requirements:"));
+        JTextField requirementsField = new JTextField();
+        formPanel.add(requirementsField);
+
+        formPanel.add(new JLabel("Location:"));
+        JTextField locationField = new JTextField();
+        formPanel.add(locationField);
+
+        formPanel.add(new JLabel("Industry Type:"));
+        JTextField industryField = new JTextField();
+        formPanel.add(industryField);
+
+        formPanel.add(new JLabel("Post Date:"));
+        JTextField postDateField = new JTextField();
+        formPanel.add(postDateField);
+
+        // Buttons panel
+        JPanel buttonPanel = new JPanel(new FlowLayout());
+        JButton addButton = new JButton("Add Job Post");
+
+        buttonPanel.add(addButton);
+
+        // Add action listener to the add button
+        addButton.addActionListener(e -> {
+            try {
+                Date postDate = new SimpleDateFormat("yyyy-MM-dd").parse(postDateField.getText());
+                JobPost jobPost = new JobPost(
+                    idField.getText(),
+                    titleField.getText(),
+                    companyField.getText(),
+                    descriptionField.getText(),
+                    requirementsField.getText(),
+                    postDate,
+                    locationField.getText(),
+                    industryField.getText()
+                );
+
+                // Add the new job post and write to file
+                List<JobPost> jobPosts = JobPostDataHandler.readJobPosts(); // Read current job posts
+                jobPosts.add(jobPost);
+                JobPostDataHandler.writeJobPosts(jobPosts); // Write updated list to file
+
+                // Clear the fields after submission
+                clearFields(idField, titleField, companyField, descriptionField, requirementsField, locationField, industryField, postDateField);
+
+                JOptionPane.showMessageDialog(this, "Job Post added successfully!");
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
+        // Add panels to main panel
+        jobPostPanel.add(formPanel, BorderLayout.NORTH);
+        jobPostPanel.add(buttonPanel, BorderLayout.SOUTH);
+    }
+
+    
+    private void createApplicationPanel() {
+        applicationPanel = new JPanel(new BorderLayout());
+
+        // Create form panel
+        JPanel formPanel = new JPanel(new GridLayout(0, 2, 5, 5));
+        formPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        // Add form components
+        formPanel.add(new JLabel("Application ID:"));
+        JTextField applicationIdField = new JTextField();
+        formPanel.add(applicationIdField);
+
+        formPanel.add(new JLabel("Job Post ID:"));
+        JTextField jobPostIdField = new JTextField();
+        formPanel.add(jobPostIdField);
+
+        formPanel.add(new JLabel("Job Seeker ID:"));
+        JTextField jobSeekerIdField = new JTextField();
+        formPanel.add(jobSeekerIdField);
+
+        formPanel.add(new JLabel("Resume:"));
+        JTextField resumeField = new JTextField();
+        formPanel.add(resumeField);
+
+        formPanel.add(new JLabel("Cover Letter:"));
+        JTextField coverLetterField = new JTextField();
+        formPanel.add(coverLetterField);
+
+        formPanel.add(new JLabel("Status:"));
+        JTextField statusField = new JTextField();
+        formPanel.add(statusField);
+
+        formPanel.add(new JLabel("Application Date:"));
+        JTextField applicationDateField = new JTextField();
+        formPanel.add(applicationDateField);
+
+        // Buttons panel
+        JPanel buttonPanel = new JPanel(new FlowLayout());
+        JButton applyButton = new JButton("Apply for Job");
+
+        buttonPanel.add(applyButton);
+
+        // Add action listener to the apply button
+        applyButton.addActionListener(e -> {
+            try {
+                Date applicationDate = new SimpleDateFormat("yyyy-MM-dd").parse(applicationDateField.getText());
+                JobApplication jobApplication = new JobApplication(
+                    applicationIdField.getText(),
+                    jobPostIdField.getText(),
+                    jobSeekerIdField.getText(),
+                    applicationDate,
+                    resumeField.getText(),
+                    coverLetterField.getText(),
+                    statusField.getText()
+                );
+
+                // Add the new job application and write to file
+                List<JobApplication> jobApplications = JobApplicationDataHandler.readJobApplications(); // Read current job applications
+                jobApplications.add(jobApplication);
+                JobApplicationDataHandler.writeJobApplications(jobApplications); // Write updated list to file
+
+                // Clear the fields after submission
+                clearFields(applicationIdField, jobPostIdField, jobSeekerIdField, resumeField, coverLetterField, statusField, applicationDateField);
+
+                JOptionPane.showMessageDialog(this, "Application submitted successfully!");
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
+        // Add panels to main panel
+        applicationPanel.add(formPanel, BorderLayout.NORTH);
+        applicationPanel.add(buttonPanel, BorderLayout.SOUTH);
+    }
+
+    
+    private void createMenuBar() {
+        JMenuBar menuBar = new JMenuBar();
+        
+        // File menu
+        JMenu fileMenu = new JMenu("File");
+        JMenuItem saveItem = new JMenuItem("Save");
+        JMenuItem loadItem = new JMenuItem("Load");
+        JMenuItem exitItem = new JMenuItem("Exit");
+        
+        fileMenu.add(saveItem);
+        fileMenu.add(loadItem);
+        fileMenu.addSeparator();
+        fileMenu.add(exitItem);
+        
+        // Add action listeners
+        exitItem.addActionListener(e -> System.exit(0));
+        
+        // Help menu
+        JMenu helpMenu = new JMenu("Help");
+        JMenuItem aboutItem = new JMenuItem("About");
+        helpMenu.add(aboutItem);
+        
+        // Add menus to menu bar
+        menuBar.add(fileMenu);
+        menuBar.add(helpMenu);
+        
+        setJMenuBar(menuBar);
+    }
+    
+    private void clearFields(JTextField... fields) {
+        for (JTextField field : fields) {
+            field.setText("");
+        }
+    }
+    
+    public static void main(String[] args) {
+        // Set Look and Feel to system default
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        // Launch the application
+        SwingUtilities.invokeLater(() -> {
+            JavaSwing app = new JavaSwing();
+            app.setVisible(true);
+        });
+    }
+}
